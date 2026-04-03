@@ -2,9 +2,13 @@
 
 import { useState, FormEvent } from "react";
 import { Send, CheckCircle, AlertCircle, Upload } from "lucide-react";
-import { siteConfig } from "@/config/site";
 
-export default function QuoteForm() {
+interface QuoteFormProps {
+  email: string;
+  projectTypes?: string[];
+}
+
+export default function QuoteForm({ email, projectTypes = [] }: QuoteFormProps) {
   const [status, setStatus] = useState<
     "idle" | "sending" | "success" | "error"
   >("idle");
@@ -18,7 +22,6 @@ export default function QuoteForm() {
       const form = e.currentTarget;
       const formData = new FormData(form);
 
-      // Add file names as text (Formsubmit doesn't support file attachments on free tier)
       if (files && files.length > 0) {
         const fileNames = Array.from(files)
           .map((f) => f.name)
@@ -153,7 +156,7 @@ export default function QuoteForm() {
                 className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all bg-white"
               >
                 <option value="">Select a project type</option>
-                {siteConfig.projectTypes.map((type) => (
+                {projectTypes.map((type) => (
                   <option key={type} value={type}>
                     {type}
                   </option>
@@ -225,11 +228,8 @@ export default function QuoteForm() {
               <AlertCircle className="w-5 h-5 flex-shrink-0" />
               <p className="text-sm">
                 Something went wrong. Please try again or email us directly at{" "}
-                <a
-                  href={`mailto:${siteConfig.email}`}
-                  className="underline"
-                >
-                  {siteConfig.email}
+                <a href={`mailto:${email}`} className="underline">
+                  {email}
                 </a>
               </p>
             </div>

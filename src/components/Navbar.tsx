@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
-import { siteConfig } from "@/config/site";
 
 const navLinks = [
   { label: "About", href: "#about" },
@@ -12,7 +11,11 @@ const navLinks = [
   { label: "Get a Quote", href: "#quote" },
 ];
 
-export default function Navbar() {
+interface NavbarProps {
+  companyName: string;
+}
+
+export default function Navbar({ companyName }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = () => setIsOpen(false);
@@ -25,13 +28,13 @@ export default function Navbar() {
           <a href="#" className="flex items-center gap-3">
             <Image
               src="/logo.jpg"
-              alt={siteConfig.companyName}
+              alt={companyName}
               width={50}
               height={50}
               className="rounded"
             />
             <span className="text-primary font-bold text-lg hidden sm:block">
-              {siteConfig.companyName}
+              {companyName}
             </span>
           </a>
 

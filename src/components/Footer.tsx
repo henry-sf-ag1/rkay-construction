@@ -1,8 +1,27 @@
 import Image from "next/image";
 import { Facebook, Instagram, Linkedin, Phone, Mail, MapPin } from "lucide-react";
-import { siteConfig } from "@/config/site";
 
-export default function Footer() {
+interface FooterProps {
+  companyName: string;
+  tagline: string;
+  email: string;
+  phone: string;
+  address: string;
+  social: {
+    facebook: string;
+    instagram: string;
+    linkedin: string;
+  };
+}
+
+export default function Footer({
+  companyName,
+  tagline,
+  email,
+  phone,
+  address,
+  social,
+}: FooterProps) {
   return (
     <footer className="bg-primary text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -13,16 +32,16 @@ export default function Footer() {
               <div className="bg-white rounded-lg p-2">
                 <Image
                   src="/logo.jpg"
-                  alt={siteConfig.companyName}
+                  alt={companyName}
                   width={40}
                   height={40}
                   className="rounded"
                 />
               </div>
-              <span className="font-bold text-lg">{siteConfig.companyName}</span>
+              <span className="font-bold text-lg">{companyName}</span>
             </div>
             <p className="text-gray-300 text-sm leading-relaxed">
-              {siteConfig.tagline}. Trusted residential building services across
+              {tagline}. Trusted residential building services across
               the United Kingdom.
             </p>
           </div>
@@ -32,22 +51,22 @@ export default function Footer() {
             <h3 className="font-semibold text-lg mb-4">Contact Us</h3>
             <div className="space-y-3">
               <a
-                href={`tel:${siteConfig.phone}`}
+                href={`tel:${phone}`}
                 className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors text-sm"
               >
                 <Phone className="w-4 h-4 flex-shrink-0" />
-                {siteConfig.phone}
+                {phone}
               </a>
               <a
-                href={`mailto:${siteConfig.email}`}
+                href={`mailto:${email}`}
                 className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors text-sm"
               >
                 <Mail className="w-4 h-4 flex-shrink-0" />
-                {siteConfig.email}
+                {email}
               </a>
               <div className="flex items-center gap-3 text-gray-300 text-sm">
                 <MapPin className="w-4 h-4 flex-shrink-0" />
-                {siteConfig.address}
+                {address}
               </div>
             </div>
           </div>
@@ -57,21 +76,21 @@ export default function Footer() {
             <h3 className="font-semibold text-lg mb-4">Follow Us</h3>
             <div className="flex items-center gap-4 mb-6">
               <a
-                href={siteConfig.social.facebook}
+                href={social.facebook}
                 aria-label="Facebook"
                 className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors"
               >
                 <Facebook className="w-5 h-5" />
               </a>
               <a
-                href={siteConfig.social.instagram}
+                href={social.instagram}
                 aria-label="Instagram"
                 className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors"
               >
                 <Instagram className="w-5 h-5" />
               </a>
               <a
-                href={siteConfig.social.linkedin}
+                href={social.linkedin}
                 aria-label="LinkedIn"
                 className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors"
               >
@@ -98,7 +117,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-white/10 mt-12 pt-8 text-center">
           <p className="text-sm text-gray-400">
-            © 2025 {siteConfig.companyName}. All rights reserved.
+            © 2025 {companyName}. All rights reserved.
           </p>
         </div>
       </div>

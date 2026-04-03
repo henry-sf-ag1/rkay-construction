@@ -1,7 +1,11 @@
 import { Quote } from "lucide-react";
-import { siteConfig } from "@/config/site";
+import type { TestimonialData } from "@/sanity/types";
 
-export default function Testimonials() {
+interface TestimonialsProps {
+  testimonials: TestimonialData[];
+}
+
+export default function Testimonials({ testimonials }: TestimonialsProps) {
   return (
     <section className="py-24 bg-light-grey">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -15,9 +19,9 @@ export default function Testimonials() {
 
         {/* Testimonials grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 stagger-children">
-          {siteConfig.testimonials.map((testimonial) => (
+          {testimonials.map((testimonial) => (
             <div
-              key={testimonial.name}
+              key={testimonial._id}
               className="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300"
             >
               <Quote className="w-8 h-8 text-accent mb-4" />

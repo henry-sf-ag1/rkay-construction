@@ -1,7 +1,22 @@
 import Image from "next/image";
-import { siteConfig } from "@/config/site";
+import type { SanityImage } from "@/sanity/types";
+import { urlFor } from "@/sanity/lib/image";
 
-export default function Hero() {
+interface HeroProps {
+  companyName: string;
+  tagline: string;
+  subtagline: string;
+  logo?: SanityImage;
+}
+
+export default function Hero({
+  companyName,
+  tagline,
+  subtagline,
+  logo,
+}: HeroProps) {
+  const logoSrc = logo ? urlFor(logo).width(240).height(240).url() : "/logo.jpg";
+
   return (
     <section className="relative hero-pattern min-h-screen flex items-center justify-center pt-20">
       {/* Overlay gradient */}
@@ -12,8 +27,8 @@ export default function Hero() {
         <div className="mb-8 flex justify-center animate-fade-in-up">
           <div className="bg-white rounded-2xl p-4 shadow-2xl">
             <Image
-              src="/logo.jpg"
-              alt={siteConfig.companyName}
+              src={logoSrc}
+              alt={companyName}
               width={120}
               height={120}
               className="rounded-lg"
@@ -27,7 +42,7 @@ export default function Hero() {
           className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 animate-fade-in-up"
           style={{ animationDelay: "0.2s" }}
         >
-          {siteConfig.tagline}
+          {tagline}
         </h1>
 
         {/* Subtext */}
@@ -35,7 +50,7 @@ export default function Hero() {
           className="text-xl sm:text-2xl text-accent mb-10 font-light animate-fade-in-up"
           style={{ animationDelay: "0.4s" }}
         >
-          {siteConfig.subtagline}
+          {subtagline}
         </p>
 
         {/* CTA */}

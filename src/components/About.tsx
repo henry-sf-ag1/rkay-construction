@@ -1,9 +1,13 @@
 import { Award, Clock, PoundSterling } from "lucide-react";
-import { siteConfig } from "@/config/site";
 
 const icons = [Award, Clock, PoundSterling];
 
-export default function About() {
+interface AboutProps {
+  intro: string;
+  values: { title: string; description: string }[];
+}
+
+export default function About({ intro, values }: AboutProps) {
   return (
     <section id="about" className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -14,14 +18,14 @@ export default function About() {
           </h2>
           <div className="w-16 h-1 bg-accent mx-auto mb-8" />
           <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            {siteConfig.about.intro}
+            {intro}
           </p>
         </div>
 
         {/* Values grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 stagger-children">
-          {siteConfig.about.values.map((value, index) => {
-            const Icon = icons[index];
+          {values.map((value, index) => {
+            const Icon = icons[index % icons.length];
             return (
               <div
                 key={value.title}

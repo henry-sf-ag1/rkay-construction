@@ -5,12 +5,37 @@ import {
   UtensilsCrossed,
   Columns3,
   HardHat,
+  LucideIcon,
+  Wrench,
 } from "lucide-react";
-import { siteConfig } from "@/config/site";
+import type { ServiceData } from "@/sanity/types";
 
-const icons = [Home, ArrowUpFromLine, Building2, UtensilsCrossed, Columns3, HardHat];
+// Map of icon names to components for Sanity-driven icons
+const iconMap: Record<string, LucideIcon> = {
+  Home,
+  ArrowUpFromLine,
+  Building2,
+  UtensilsCrossed,
+  Columns3,
+  HardHat,
+  Wrench,
+};
 
-export default function Services() {
+// Fallback order for static data (no icon field)
+const fallbackIcons: LucideIcon[] = [
+  Home,
+  ArrowUpFromLine,
+  Building2,
+  UtensilsCrossed,
+  Columns3,
+  HardHat,
+];
+
+interface ServicesProps {
+  services: ServiceData[];
+}
+
+export default function Services({ services }: ServicesProps) {
   return (
     <section id="services" className="py-24 bg-light-grey">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -28,11 +53,13 @@ export default function Services() {
 
         {/* Services grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 stagger-children">
-          {siteConfig.services.map((service, index) => {
-            const Icon = icons[index];
+          {services.map((service, index) => {
+            const Icon =
+              (service.icon && iconMap[service.icon]) ||
+              fallbackIcons[index % fallbackIcons.length];
             return (
               <div
-                key={service.title}
+                key={service._id}
                 className="bg-white p-8 rounded-xl shadow-sm hover:shadow-lg border border-gray-100 hover:border-accent/50 transition-all duration-300 group"
               >
                 <div className="inline-flex items-center justify-center w-14 h-14 bg-primary rounded-lg mb-5 group-hover:bg-primary/90 transition-colors">
