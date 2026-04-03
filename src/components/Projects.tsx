@@ -12,11 +12,11 @@ export default function Projects({ projects }: ProjectsProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-primary mb-2">
+          <h2 className="text-3xl sm:text-4xl font-bold text-heading mb-2">
             Our Work
           </h2>
           <div className="w-16 h-1 bg-accent mx-auto mb-8" />
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-projects-text max-w-2xl mx-auto">
             A selection of our recent residential construction projects across
             the UK.
           </p>
@@ -50,10 +50,10 @@ export default function Projects({ projects }: ProjectsProps) {
                 </div>
               )}
               <div className="p-6">
-                <h3 className="text-lg font-semibold text-primary mb-2 group-hover:text-primary/80 transition-colors">
+                <h3 className="text-lg font-semibold text-heading mb-2 group-hover:text-primary/80 transition-colors">
                   {project.title}
                 </h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
+                <p className="text-projects-text text-sm leading-relaxed">
                   {project.description}
                 </p>
               </div>

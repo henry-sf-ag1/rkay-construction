@@ -11,7 +11,7 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-primary mb-2">
+          <h2 className="text-3xl sm:text-4xl font-bold text-heading mb-2">
             What Our Clients Say
           </h2>
           <div className="w-16 h-1 bg-accent mx-auto" />
@@ -25,11 +25,11 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
               className="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300"
             >
               <Quote className="w-8 h-8 text-accent mb-4" />
-              <p className="text-gray-600 leading-relaxed mb-6 italic">
+              <p className="text-testimonials-text leading-relaxed mb-6 italic">
                 &ldquo;{testimonial.quote}&rdquo;
               </p>
               <div className="border-t border-gray-100 pt-4">
-                <p className="font-semibold text-primary">
+                <p className="font-semibold text-heading">
                   {testimonial.name}
                 </p>
                 <p className="text-sm text-gray-500">{testimonial.location}</p>

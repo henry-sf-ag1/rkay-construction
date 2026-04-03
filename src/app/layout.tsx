@@ -41,6 +41,11 @@ export default async function RootLayout({
       --color-background: ${theme.backgroundColor};
       --color-text: ${theme.textColor};
       --color-text-light: ${theme.lightTextColor};
+      --color-heading: ${theme.headingColor || theme.primaryColor};
+      --color-about-text: ${theme.aboutTextColor || theme.textColor};
+      --color-services-text: ${theme.servicesTextColor || theme.textColor};
+      --color-projects-text: ${theme.projectsTextColor || theme.textColor};
+      --color-testimonials-text: ${theme.testimonialsTextColor || theme.textColor};
     }
   `;
 

@@ -16,6 +16,11 @@ interface Theme {
   backgroundColor: string;
   textColor: string;
   lightTextColor: string;
+  headingColor?: string;
+  aboutTextColor?: string;
+  servicesTextColor?: string;
+  projectsTextColor?: string;
+  testimonialsTextColor?: string;
 }
 interface FormField {
   label: string;
@@ -265,6 +270,14 @@ function SettingsTab({ config, setConfig, onSave, saving, status }: {
           <ColorInput label="Background Colour" value={config.theme?.backgroundColor ?? '#f8fafc'} onChange={setTheme('backgroundColor')} />
           <ColorInput label="Main Text Colour" value={config.theme?.textColor ?? '#1e293b'} onChange={setTheme('textColor')} />
           <ColorInput label="Secondary Text Colour" value={config.theme?.lightTextColor ?? '#64748b'} onChange={setTheme('lightTextColor')} />
+          <ColorInput label="Heading Colour (section titles)" value={config.theme?.headingColor ?? config.theme?.primaryColor ?? '#1e293b'} onChange={setTheme('headingColor')} />
+        </div>
+        <h4 className="text-sm font-semibold text-gray-700 mt-4 mb-2">Per-Section Text Colours</h4>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <ColorInput label="About Section Text" value={config.theme?.aboutTextColor ?? config.theme?.textColor ?? '#1e293b'} onChange={setTheme('aboutTextColor')} />
+          <ColorInput label="Services Section Text" value={config.theme?.servicesTextColor ?? config.theme?.textColor ?? '#1e293b'} onChange={setTheme('servicesTextColor')} />
+          <ColorInput label="Projects Section Text" value={config.theme?.projectsTextColor ?? config.theme?.textColor ?? '#1e293b'} onChange={setTheme('projectsTextColor')} />
+          <ColorInput label="Testimonials Section Text" value={config.theme?.testimonialsTextColor ?? config.theme?.textColor ?? '#1e293b'} onChange={setTheme('testimonialsTextColor')} />
         </div>
       </div>
 

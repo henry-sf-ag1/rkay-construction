@@ -41,11 +41,11 @@ export default function Services({ services }: ServicesProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-primary mb-2">
+          <h2 className="text-3xl sm:text-4xl font-bold text-heading mb-2">
             Our Services
           </h2>
           <div className="w-16 h-1 bg-accent mx-auto mb-8" />
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-services-text max-w-2xl mx-auto">
             From foundations to finishing touches, we deliver comprehensive
             residential construction services.
           </p>
@@ -65,10 +65,10 @@ export default function Services({ services }: ServicesProps) {
                 <div className="inline-flex items-center justify-center w-14 h-14 bg-primary rounded-lg mb-5 group-hover:bg-primary/90 transition-colors">
                   <Icon className="w-7 h-7 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold text-primary mb-3">
+                <h3 className="text-xl font-semibold text-heading mb-3">
                   {service.title}
                 </h3>
-                <p className="text-gray-600 leading-relaxed">
+                <p className="text-services-text leading-relaxed">
                   {service.description}
                 </p>
               </div>
