@@ -30,7 +30,7 @@ export const siteConfig = {
   "services": [
     {
       "title": "House Extensions",
-      "description": "Expand your living space with beautifully designed single and double-storey extensions."
+      "description": "Expand your living space with beautifully designed single and double-storey extensions.\nWe will work with you from design stage through to finishing touches ti deliver your dream home."
     },
     {
       "title": "Loft Conversions",
@@ -42,7 +42,7 @@ export const siteConfig = {
     },
     {
       "title": "Kitchen & Bathroom Renovations",
-      "description": "Modern, functional renovations that add value and style to your home."
+      "description": "Modern, functional renovations that add value and style to two of the most important rooms in your home."
     },
     {
       "title": "Structural Alterations",
@@ -55,14 +55,16 @@ export const siteConfig = {
   ],
   "projects": [
     {
-      "title": "Two-Storey Extension — Surrey",
-      "description": "A spacious two-storey rear extension adding a modern kitchen and master bedroom suite.",
-      "image": "/images/projects/extension-surrey.jpg"
+      "title": "Single-Storey Rear Extension — Chelmsford, Essex",
+      "description": "A spacious single-storey rear extension adding a timeless, stylish kitchen and family living area. This project was concept, to completion.",
+      "image": "https://dshifhgxd8as8ou1.public.blob.vercel-storage.com/images/img_0498-1775236889372.jpeg",
+      "location": "Chelmsford, Essex"
     },
     {
-      "title": "Loft Conversion — London",
-      "description": "Victorian terrace loft conversion with dormer windows and en-suite bathroom.",
-      "image": "/images/projects/loft-london.jpg"
+      "title": "Double-Storey Side And Rear Extension — Buckhurst Hill, Essex ",
+      "description": "Double storey side and rear extension, with a full house renovation including a traditional kitchen and two high spec bathrooms.",
+      "image": "https://dshifhgxd8as8ou1.public.blob.vercel-storage.com/images/img_0503-1775237851235.jpeg",
+      "location": "Buckhurst Hill, Essex"
     },
     {
       "title": "Full Renovation — Kent",
@@ -87,14 +89,14 @@ export const siteConfig = {
   ],
   "testimonials": [
     {
-      "name": "James & Sarah T.",
-      "location": "Surrey",
-      "quote": "R Kay Construction transformed our home with a stunning two-storey extension. Professional from start to finish — we couldn't be happier with the result."
+      "name": "Sarah & James Thomas",
+      "location": "Epping, Essex.",
+      "quote": "Ryan and his team at RKay Construction transformed our home with a stunning two-storey extension. Professional from start to finish. They worked with us from concept to completion. We really couldn't be happier with the result."
     },
     {
-      "name": "David M.",
-      "location": "London",
-      "quote": "Brilliant work on our loft conversion. The team was reliable, tidy, and delivered exactly what was promised. Highly recommended."
+      "name": "David Morgan",
+      "location": "Loughton, Essex",
+      "quote": "Brilliant work on our loft conversion by RKay Construction. The team were reliable, tidy, and delivered exactly what was promised from day one. Turned our unused loft into a luxury master bedroom suite! Highly recommended."
     },
     {
       "name": "Emma & Chris P.",
@@ -120,12 +122,14 @@ export const siteConfig = {
   "quoteForm": {
     "title": "Get a Free Quote",
     "subtitle": "Tell us about your project and we'll provide a detailed, no-obligation quote.",
-    "successMessage": "Thanks! We'll review your project details and get back to you ASAP!",
+    "successMessage": "Thanks! We'll review your project details and get back to you ASAP to arrange a free home visit!",
     "projectTypes": [
       "Extension",
       "Loft Conversion",
       "New Builds",
-      "Renovations"
+      "Home Renovation",
+      "Kitchen Renovation",
+      "Bathroom Renovation"
     ],
     "buttonText": "Request a Quote",
     "showFileUpload": true,
