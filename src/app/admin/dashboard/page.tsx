@@ -546,24 +546,36 @@ export default function AdminDashboard() {
     if (!config) return;
     setSaving(true);
     setStatus(null);
-    try {
-      const res = await fetch('/api/admin/save', {
-        method: 'POST',
-        headers: authHeaders(),
-        body: JSON.stringify({ config }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setStatus({ type: 'success', msg: data.message || '✅ Saved! Changes will be live in ~30 seconds.' });
-      } else {
-        setStatus({ type: 'error', msg: data.error || 'Save failed' });
+    let lastError = '';
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      try {
+        const res = await fetch('/api/admin/save', {
+          method: 'POST',
+          headers: authHeaders(),
+          body: JSON.stringify({ config }),
+        });
+        const data = await res.json();
+        if (res.ok) {
+          setStatus({ type: 'success', msg: data.message || '✅ Saved!' });
+          setSaving(false);
+          setTimeout(() => setStatus(null), 6000);
+          return;
+        }
+        if (res.status === 401) {
+          setStatus({ type: 'error', msg: 'Session expired — please log in again' });
+          localStorage.removeItem('admin_token');
+          window.location.reload();
+          return;
+        }
+        lastError = data.error || `Save failed (${res.status})`;
+      } catch {
+        lastError = 'Connection error';
       }
-    } catch {
-      setStatus({ type: 'error', msg: 'Connection error — please try again' });
-    } finally {
-      setSaving(false);
-      setTimeout(() => setStatus(null), 6000);
+      if (attempt < 3) await new Promise(r => setTimeout(r, 1000 * attempt));
     }
+    setStatus({ type: 'error', msg: `${lastError} — tried 3 times. Please try again.` });
+    setSaving(false);
+    setTimeout(() => setStatus(null), 8000);
   }
 
   const tabs: { id: Tab; label: string }[] = [
