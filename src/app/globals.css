@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: #1a1a1a;
+  background: #ffffff;
+}
+
+/* Scroll animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Stagger children animations */
+.stagger-children > * {
+  opacity: 0;
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.stagger-children > *:nth-child(1) { animation-delay: 0.1s; }
+.stagger-children > *:nth-child(2) { animation-delay: 0.2s; }
+.stagger-children > *:nth-child(3) { animation-delay: 0.3s; }
+.stagger-children > *:nth-child(4) { animation-delay: 0.4s; }
+.stagger-children > *:nth-child(5) { animation-delay: 0.5s; }
+.stagger-children > *:nth-child(6) { animation-delay: 0.6s; }
+
+/* Construction pattern for placeholder images */
+.construction-pattern {
+  background-color: #e5e7eb;
+  background-image:
+    linear-gradient(45deg, #d1d5db 25%, transparent 25%),
+    linear-gradient(-45deg, #d1d5db 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #d1d5db 75%),
+    linear-gradient(-45deg, transparent 75%, #d1d5db 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+}
+
+/* Hero background pattern */
+.hero-pattern {
+  background-color: #1B2838;
+  background-image:
+    linear-gradient(30deg, #243447 12%, transparent 12.5%, transparent 87%, #243447 87.5%, #243447),
+    linear-gradient(150deg, #243447 12%, transparent 12.5%, transparent 87%, #243447 87.5%, #243447),
+    linear-gradient(30deg, #243447 12%, transparent 12.5%, transparent 87%, #243447 87.5%, #243447),
+    linear-gradient(150deg, #243447 12%, transparent 12.5%, transparent 87%, #243447 87.5%, #243447),
+    linear-gradient(60deg, #2a3d52 25%, transparent 25.5%, transparent 75%, #2a3d52 75%, #2a3d52),
+    linear-gradient(60deg, #2a3d52 25%, transparent 25.5%, transparent 75%, #2a3d52 75%, #2a3d52);
+  background-size: 80px 140px;
+  background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
+}
