@@ -32,9 +32,10 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({ success: true, message: 'Saved! Changes will go live in ~5 seconds.' });
-  } catch (err) {
-    console.error('Save error:', err);
-    return NextResponse.json({ error: 'Internal error' }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error('Save error:', message);
+    return NextResponse.json({ error: 'Internal error', detail: message }, { status: 500 });
   }
 }
 
