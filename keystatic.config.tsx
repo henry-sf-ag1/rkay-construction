@@ -50,11 +50,7 @@ export default config({
         title: fields.slug({ name: { label: 'Title' } }),
         description: fields.text({ label: 'Description', multiline: true }),
         location: fields.text({ label: 'Location' }),
-        image: fields.image({
-          label: 'Project Image',
-          directory: 'public/images/projects',
-          publicPath: '/images/projects/',
-        }),
+        image: fields.text({ label: 'Image Path', description: 'Path to image, e.g. /images/projects/photo.jpg' }),
         order: fields.integer({ label: 'Display Order', defaultValue: 0 }),
       },
     }),

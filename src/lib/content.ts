@@ -83,7 +83,7 @@ export async function getProjects(): Promise<ProjectData[]> {
           title: (typeof entry.title === 'object' ? (entry.title as any).name : entry.title) || slug,
           description: entry.description || '',
           location: entry.location || 'UK',
-          image: entry.image || null,
+          image: typeof entry.image === 'string' ? entry.image : (entry.image as any)?.src || null,
           order: entry.order ?? 0,
         } satisfies ProjectData;
       })
