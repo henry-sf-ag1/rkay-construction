@@ -2,7 +2,7 @@ export const siteConfig = {
   "companyName": "R Kay Construction",
   "email": "ryan@rkayconstruction.co.uk",
   "phone": "+44 1234 567 890",
-  "address": "New address",
+  "address": "WORKS NOW",
   "tagline": "Quality Residential Construction Across the UK",
   "subtagline": "Extensions • Renovations • New Builds • Loft Conversions",
   "social": {
