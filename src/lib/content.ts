@@ -100,7 +100,7 @@ export async function getProjects(): Promise<ProjectData[]> {
     title: p.title,
     description: p.description,
     location: p.title.split('—')[1]?.trim() || 'UK',
-    image: null,
+    image: (p as any).image || null,
     order: i,
   }));
 }

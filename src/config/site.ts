@@ -68,31 +68,37 @@ export const siteConfig = {
       title: "Two-Storey Extension — Surrey",
       description:
         "A spacious two-storey rear extension adding a modern kitchen and master bedroom suite.",
+      image: "/images/projects/extension-surrey.jpg",
     },
     {
       title: "Loft Conversion — London",
       description:
         "Victorian terrace loft conversion with dormer windows and en-suite bathroom.",
+      image: "/images/projects/loft-london.jpg",
     },
     {
       title: "Full Renovation — Kent",
       description:
         "Complete interior renovation of a 1930s semi-detached, modernised throughout.",
+      image: "/images/projects/renovation-kent.jpg",
     },
     {
       title: "New Build — Essex",
       description:
         "Four-bedroom detached new build with contemporary design and energy-efficient features.",
+      image: "/images/projects/newbuild-essex.jpg",
     },
     {
       title: "Kitchen Remodel — Hampshire",
       description:
         "Open-plan kitchen-diner with bi-fold doors, island unit, and premium finishes.",
+      image: "/images/projects/kitchen-hampshire.jpg",
     },
     {
       title: "Roofing Replacement — Berkshire",
       description:
         "Complete roof replacement with new slate tiles, insulation, and lead flashings.",
+      image: "/images/projects/roofing-berkshire.jpg",
     },
   ],
   testimonials: [
