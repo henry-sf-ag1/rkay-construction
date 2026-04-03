@@ -26,7 +26,7 @@ export default function QuoteForm() {
         formData.append("_attached_files", fileNames);
       }
 
-      const res = await fetch("https://formsubmit.co/ajax/ryan@rkayconstruction.co.uk", {
+      const res = await fetch("/api/quote", {
         method: "POST",
         body: formData,
       });
@@ -86,11 +86,6 @@ export default function QuoteForm() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Hidden fields for Formsubmit */}
-          <input type="hidden" name="_subject" value="New Quote Request — R Kay Construction" />
-          <input type="hidden" name="_template" value="table" />
-          <input type="hidden" name="_captcha" value="false" />
-
           {/* Name & Email row */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
