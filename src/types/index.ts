@@ -1,4 +1,4 @@
-// Shared types for Sanity CMS data
+// Shared types for CMS data
 
 export interface SiteSettings {
   companyName: string;
@@ -7,21 +7,16 @@ export interface SiteSettings {
   address: string;
   tagline: string;
   subtagline: string;
-  logo?: SanityImage;
-  about: {
-    intro: string;
-    values: { title: string; description: string }[];
-  };
   social: {
     facebook: string;
     instagram: string;
     linkedin: string;
   };
-  projectTypes?: string[];
+  projectTypes: string[];
 }
 
 export interface ServiceData {
-  _id: string;
+  slug: string;
   title: string;
   description: string;
   icon: string;
@@ -29,26 +24,18 @@ export interface ServiceData {
 }
 
 export interface ProjectData {
-  _id: string;
+  slug: string;
   title: string;
   description: string;
   location: string;
-  image?: SanityImage & { alt?: string };
+  image?: string | null;
   order: number;
 }
 
 export interface TestimonialData {
-  _id: string;
+  slug: string;
   name: string;
   location: string;
   quote: string;
   order: number;
-}
-
-export interface SanityImage {
-  _type: "image";
-  asset: {
-    _ref: string;
-    _type: "reference";
-  };
 }

@@ -1,22 +1,16 @@
 import Image from "next/image";
-import type { SanityImage } from "@/sanity/types";
-import { urlFor } from "@/sanity/lib/image";
 
 interface HeroProps {
   companyName: string;
   tagline: string;
   subtagline: string;
-  logo?: SanityImage;
 }
 
 export default function Hero({
   companyName,
   tagline,
   subtagline,
-  logo,
 }: HeroProps) {
-  const logoSrc = logo ? urlFor(logo).width(240).height(240).url() : "/logo.jpg";
-
   return (
     <section className="relative hero-pattern min-h-screen flex items-center justify-center pt-20">
       {/* Overlay gradient */}
@@ -27,7 +21,7 @@ export default function Hero({
         <div className="mb-8 flex justify-center animate-fade-in-up">
           <div className="bg-white rounded-2xl p-4 shadow-2xl">
             <Image
-              src={logoSrc}
+              src="/logo.jpg"
               alt={companyName}
               width={120}
               height={120}

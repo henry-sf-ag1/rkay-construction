@@ -1,5 +1,5 @@
 import { Quote } from "lucide-react";
-import type { TestimonialData } from "@/sanity/types";
+import type { TestimonialData } from "@/types";
 
 interface TestimonialsProps {
   testimonials: TestimonialData[];
@@ -21,7 +21,7 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 stagger-children">
           {testimonials.map((testimonial) => (
             <div
-              key={testimonial._id}
+              key={testimonial.slug}
               className="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300"
             >
               <Quote className="w-8 h-8 text-accent mb-4" />

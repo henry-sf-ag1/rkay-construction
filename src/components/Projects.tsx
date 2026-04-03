@@ -1,7 +1,6 @@
 import { MapPin } from "lucide-react";
 import Image from "next/image";
-import type { ProjectData } from "@/sanity/types";
-import { urlFor } from "@/sanity/lib/image";
+import type { ProjectData } from "@/types";
 
 interface ProjectsProps {
   projects: ProjectData[];
@@ -27,15 +26,15 @@ export default function Projects({ projects }: ProjectsProps) {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 stagger-children">
           {projects.map((project) => (
             <div
-              key={project._id}
+              key={project.slug}
               className="group rounded-xl overflow-hidden border border-gray-100 hover:shadow-lg transition-all duration-300"
             >
               {/* Image area */}
               {project.image ? (
                 <div className="relative h-52">
                   <Image
-                    src={urlFor(project.image).width(600).height(400).url()}
-                    alt={project.image.alt || project.title}
+                    src={project.image}
+                    alt={project.title}
                     fill
                     className="object-cover"
                   />

@@ -8,9 +8,9 @@ import {
   LucideIcon,
   Wrench,
 } from "lucide-react";
-import type { ServiceData } from "@/sanity/types";
+import type { ServiceData } from "@/types";
 
-// Map of icon names to components for Sanity-driven icons
+// Map of icon names to components
 const iconMap: Record<string, LucideIcon> = {
   Home,
   ArrowUpFromLine,
@@ -59,7 +59,7 @@ export default function Services({ services }: ServicesProps) {
               fallbackIcons[index % fallbackIcons.length];
             return (
               <div
-                key={service._id}
+                key={service.slug}
                 className="bg-white p-8 rounded-xl shadow-sm hover:shadow-lg border border-gray-100 hover:border-accent/50 transition-all duration-300 group"
               >
                 <div className="inline-flex items-center justify-center w-14 h-14 bg-primary rounded-lg mb-5 group-hover:bg-primary/90 transition-colors">

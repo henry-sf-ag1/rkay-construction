@@ -1,0 +1,6 @@
+{
+  "title": { "name": "New Builds", "slug": "new-builds" },
+  "description": "Complete new build construction from foundations to finishing touches.",
+  "icon": "Building2",
+  "order": 2
+}

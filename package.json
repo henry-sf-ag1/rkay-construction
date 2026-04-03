@@ -6,12 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "seed": "tsx src/sanity/seed.ts"
+    "lint": "next lint"
   },
   "dependencies": {
-    "@sanity/client": "^7.20.0",
-    "@sanity/image-url": "^1.1.0",
+    "@keystatic/core": "^0.5.0",
+    "@keystatic/next": "^5.0.0",
     "lucide-react": "^0.460.0",
     "next": "^14.2.0",
     "react": "^18.3.0",
@@ -25,12 +24,6 @@
     "autoprefixer": "^10.4.27",
     "postcss": "^8.5.8",
     "tailwindcss": "^3.4.19",
-    "tsx": "^4.0.0",
-    "typescript": "^5.9.3",
-    "sanity": "^3.0.0",
-    "next-sanity": "^9.0.0",
-    "@sanity/vision": "^3.0.0",
-    "sanity-plugin-media": "^2.0.0",
-    "styled-components": "^6.0.0"
+    "typescript": "^5.9.3"
   }
 }

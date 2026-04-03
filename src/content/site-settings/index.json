@@ -1,0 +1,21 @@
+{
+  "companyName": "R Kay Construction",
+  "email": "ryan@rkayconstruction.co.uk",
+  "phone": "+44 1234 567 890",
+  "address": "London, United Kingdom",
+  "tagline": "Quality Residential Construction Across the UK",
+  "subtagline": "Extensions • Renovations • New Builds • Loft Conversions",
+  "social": {
+    "facebook": "#",
+    "instagram": "#",
+    "linkedin": "#"
+  },
+  "projectTypes": [
+    "Extension",
+    "Loft Conversion",
+    "New Build",
+    "Renovation",
+    "Roofing",
+    "Other"
+  ]
+}
