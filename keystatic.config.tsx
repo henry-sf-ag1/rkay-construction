@@ -2,8 +2,7 @@ import { config, fields, collection, singleton } from '@keystatic/core';
 
 export default config({
   storage: {
-    kind: 'github',
-    repo: 'henry-sf-ag1/rkay-construction',
+    kind: 'local',
   },
   singletons: {
     siteSettings: singleton({
