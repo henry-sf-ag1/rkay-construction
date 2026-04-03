@@ -73,13 +73,27 @@ function StatusBanner({ status }: { status: { type: 'success' | 'error'; msg: st
 
 function SaveButton({ loading, onClick }: { loading: boolean; onClick: () => void }) {
   return (
-    <button
-      onClick={onClick}
-      disabled={loading}
-      className="bg-yellow-500 hover:bg-yellow-600 disabled:bg-yellow-300 text-white font-semibold px-5 py-2 rounded-lg transition-colors"
-    >
-      {loading ? 'Saving…' : 'Save Changes'}
-    </button>
+    <>
+      {loading && (
+        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
+          <div className="bg-white rounded-xl shadow-2xl px-8 py-6 flex flex-col items-center gap-3">
+            <svg className="animate-spin h-10 w-10 text-yellow-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+            </svg>
+            <p className="text-gray-700 font-semibold text-lg">Saving changes…</p>
+            <p className="text-gray-500 text-sm">This takes a few seconds</p>
+          </div>
+        </div>
+      )}
+      <button
+        onClick={onClick}
+        disabled={loading}
+        className="bg-yellow-500 hover:bg-yellow-600 disabled:bg-yellow-300 text-white font-semibold px-5 py-2 rounded-lg transition-colors"
+      >
+        {loading ? 'Saving…' : 'Save Changes'}
+      </button>
+    </>
   );
 }
 
@@ -492,7 +506,7 @@ export default function AdminDashboard() {
       });
       const data = await res.json();
       if (res.ok) {
-        setStatus({ type: 'success', msg: data.message || 'Saved successfully!' });
+        setStatus({ type: 'success', msg: data.message || '✅ Saved! Changes will be live in ~30 seconds.' });
       } else {
         setStatus({ type: 'error', msg: data.error || 'Save failed' });
       }
