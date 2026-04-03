@@ -16,7 +16,8 @@ export async function GET(req: NextRequest) {
       try {
         const blobMeta = await head(BLOB_KEY);
         if (blobMeta?.url) {
-          const res = await fetch(blobMeta.url, { cache: 'no-store' });
+          const cacheBust = `${blobMeta.url}${blobMeta.url.includes('?') ? '&' : '?'}t=${Date.now()}`;
+          const res = await fetch(cacheBust, { cache: 'no-store' });
           if (res.ok) {
             const config = await res.json();
             return NextResponse.json({ config, source: 'blob' });

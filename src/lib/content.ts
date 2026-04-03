@@ -15,7 +15,8 @@ async function getSettingsFromBlob(): Promise<Partial<SiteSettings> | null> {
     try {
       const blobMeta = await head(BLOB_KEY);
       if (!blobMeta?.url) return null;
-      const res = await fetch(blobMeta.url, { cache: 'no-store' });
+      const cacheBust = `${blobMeta.url}${blobMeta.url.includes('?') ? '&' : '?'}t=${Date.now()}`;
+      const res = await fetch(cacheBust, { cache: 'no-store' });
       if (!res.ok) return null;
       return await res.json();
     } catch {
