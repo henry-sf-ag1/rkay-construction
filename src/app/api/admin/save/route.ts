@@ -20,6 +20,7 @@ export async function POST(req: NextRequest) {
     await put(BLOB_KEY, jsonContent, {
       access: 'public',
       addRandomSuffix: false,
+      allowOverwrite: true,
       contentType: 'application/json',
     });
 
