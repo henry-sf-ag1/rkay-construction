@@ -12,9 +12,20 @@ export default function Hero({
   subtagline,
 }: HeroProps) {
   return (
-    <section className="relative hero-pattern min-h-screen flex items-center justify-center pt-20">
+    <section className="relative min-h-screen flex items-center justify-center pt-20">
+      {/* Hero background image */}
+      <div className="absolute inset-0 overflow-hidden">
+        <Image
+          src="/images/hero-bg.jpg"
+          alt="Construction site background"
+          fill
+          priority
+          className="object-cover"
+          sizes="100vw"
+        />
+      </div>
       {/* Overlay gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-primary/90 via-primary/80 to-primary/95" />
+      <div className="absolute inset-0 bg-gradient-to-b from-primary/90 via-primary/85 to-primary/95" />
 
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Logo */}
