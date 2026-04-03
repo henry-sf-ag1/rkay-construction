@@ -37,9 +37,13 @@ export async function getSiteSettings(): Promise<SiteSettings> {
       subtagline: blobSettings.subtagline || siteConfig.subtagline,
       social: blobSettings.social || siteConfig.social,
       projectTypes: blobSettings.projectTypes?.length ? blobSettings.projectTypes : siteConfig.projectTypes,
-      theme: siteConfig.theme,
-      quoteForm: siteConfig.quoteForm,
-    };
+      theme: (blobSettings as any).theme || siteConfig.theme,
+      quoteForm: (blobSettings as any).quoteForm || siteConfig.quoteForm,
+      about: (blobSettings as any).about || siteConfig.about,
+      services: (blobSettings as any).services || siteConfig.services,
+      projects: (blobSettings as any).projects || siteConfig.projects,
+      testimonials: (blobSettings as any).testimonials || siteConfig.testimonials,
+    } as SiteSettings;
   }
 
   // 2. Fall back to Keystatic file reader

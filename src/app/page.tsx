@@ -9,7 +9,7 @@ import Footer from "@/components/Footer";
 import { getSiteSettings, getServices, getProjects, getTestimonials } from "@/lib/content";
 import { siteConfig } from "@/config/site";
 
-export const revalidate = 5; // ISR: revalidate every 5 seconds for near-instant content updates
+export const dynamic = 'force-dynamic'; // Dynamic rendering for near-instant content updates from blob storage
 
 export default async function Home() {
   const [settings, services, projects, testimonials] = await Promise.all([
