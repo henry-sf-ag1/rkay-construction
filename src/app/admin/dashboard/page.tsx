@@ -418,10 +418,18 @@ function ProjectsTab({ config, setConfig, onSave, saving, status }: {
   const remove = (i: number) =>
     setConfig((c) => { if (!c) return c; const p = [...c.projects]; p.splice(i, 1); return { ...c, projects: p }; });
 
+  const [uploadError, setUploadError] = useState<string | null>(null);
+
   async function handleUpload(i: number, e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
+    if (file.size > 4 * 1024 * 1024) {
+      setUploadError(`Image too large (${(file.size / 1024 / 1024).toFixed(1)}MB). Max 4MB.`);
+      setTimeout(() => setUploadError(null), 5000);
+      return;
+    }
     setUploading(i);
+    setUploadError(null);
     try {
       const fd = new FormData();
       fd.append('file', file);
@@ -431,7 +439,15 @@ function ProjectsTab({ config, setConfig, onSave, saving, status }: {
         body: fd,
       });
       const data = await res.json();
-      if (res.ok) update(i, 'image', data.path);
+      if (res.ok) {
+        update(i, 'image', data.path);
+      } else {
+        setUploadError(data.error || 'Upload failed');
+        setTimeout(() => setUploadError(null), 5000);
+      }
+    } catch {
+      setUploadError('Upload failed — connection error');
+      setTimeout(() => setUploadError(null), 5000);
     } finally {
       setUploading(null);
     }
@@ -440,6 +456,11 @@ function ProjectsTab({ config, setConfig, onSave, saving, status }: {
   return (
     <div className="space-y-4">
       <StatusBanner status={status} />
+      {uploadError && (
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-2 rounded-lg text-sm">
+          {uploadError}
+        </div>
+      )}
       {config.projects.map((proj, i) => (
         <div key={i} className="border border-gray-200 rounded-lg p-4 space-y-3">
           <div className="flex justify-between items-center">
