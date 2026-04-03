@@ -47,6 +47,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
       services: (blobSettings as any).services || siteConfig.services,
       projects: (blobSettings as any).projects || siteConfig.projects,
       testimonials: (blobSettings as any).testimonials || siteConfig.testimonials,
+      heroImage: (blobSettings as any).heroImage || null,
     } as SiteSettings;
   }
 
