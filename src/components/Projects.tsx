@@ -31,13 +31,13 @@ export default function Projects({ projects }: ProjectsProps) {
             >
               {/* Image area */}
               {project.image ? (
-                <div className="relative">
+                <div className="relative overflow-hidden">
                   <Image
                     src={project.image}
                     alt={project.title}
                     width={800}
                     height={600}
-                    className="w-full h-auto"
+                    className="w-full h-auto max-h-[400px] object-cover"
                   />
                 </div>
               ) : (
