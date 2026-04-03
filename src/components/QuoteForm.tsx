@@ -5,7 +5,9 @@ import { Send, CheckCircle, AlertCircle, Upload } from "lucide-react";
 import { siteConfig } from "@/config/site";
 
 export default function QuoteForm() {
-  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "sending" | "success" | "error"
+  >("idle");
   const [files, setFiles] = useState<FileList | null>(null);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -16,14 +18,15 @@ export default function QuoteForm() {
       const form = e.currentTarget;
       const formData = new FormData(form);
 
-      // Append files
-      if (files) {
-        for (let i = 0; i < files.length; i++) {
-          formData.append("files", files[i]);
-        }
+      // Add file names as text (Formsubmit doesn't support file attachments on free tier)
+      if (files && files.length > 0) {
+        const fileNames = Array.from(files)
+          .map((f) => f.name)
+          .join(", ");
+        formData.append("_attached_files", fileNames);
       }
 
-      const res = await fetch("/api/quote", {
+      const res = await fetch("https://formsubmit.co/ajax/ryan@rkayconstruction.co.uk", {
         method: "POST",
         body: formData,
       });
@@ -49,8 +52,8 @@ export default function QuoteForm() {
             Quote Request Received!
           </h2>
           <p className="text-lg text-gray-600 mb-8">
-            Thank you for your enquiry. We&apos;ll review your project details and
-            get back to you within 24 hours.
+            Thank you for your enquiry. We&apos;ll review your project details
+            and get back to you within 24 hours.
           </p>
           <button
             onClick={() => setStatus("idle")}
@@ -73,19 +76,28 @@ export default function QuoteForm() {
           </h2>
           <div className="w-16 h-1 bg-accent mx-auto mb-6" />
           <p className="text-gray-600">
-            Tell us about your project and we&apos;ll provide a detailed, no-obligation
-            quote.
+            Tell us about your project and we&apos;ll provide a detailed,
+            no-obligation quote.
           </p>
           <p className="text-sm text-gray-500 mt-2">
-            We&apos;ll review your project details and get back to you within 24 hours.
+            We&apos;ll review your project details and get back to you within 24
+            hours.
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Hidden fields for Formsubmit */}
+          <input type="hidden" name="_subject" value="New Quote Request — R Kay Construction" />
+          <input type="hidden" name="_template" value="table" />
+          <input type="hidden" name="_captcha" value="false" />
+
           {/* Name & Email row */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Full Name *
               </label>
               <input
@@ -98,7 +110,10 @@ export default function QuoteForm() {
               />
             </div>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Email *
               </label>
               <input
@@ -115,7 +130,10 @@ export default function QuoteForm() {
           {/* Phone & Project Type row */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="phone"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Phone Number *
               </label>
               <input
@@ -128,7 +146,10 @@ export default function QuoteForm() {
               />
             </div>
             <div>
-              <label htmlFor="projectType" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="projectType"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Project Type
               </label>
               <select
@@ -148,7 +169,10 @@ export default function QuoteForm() {
 
           {/* Description */}
           <div>
-            <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+            <label
+              htmlFor="description"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
               Project Description
             </label>
             <textarea
@@ -162,7 +186,10 @@ export default function QuoteForm() {
 
           {/* File upload */}
           <div>
-            <label htmlFor="files" className="block text-sm font-medium text-gray-700 mb-2">
+            <label
+              htmlFor="files"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
               Upload Plans / Drawings (optional)
             </label>
             <div className="border-2 border-dashed border-gray-200 rounded-lg p-6 text-center hover:border-accent transition-colors">
@@ -170,7 +197,7 @@ export default function QuoteForm() {
               <input
                 type="file"
                 id="files"
-                name="files"
+                name="attachment"
                 multiple
                 accept=".pdf,.jpg,.jpeg,.png,.dwg"
                 onChange={(e) => setFiles(e.target.files)}
@@ -203,7 +230,10 @@ export default function QuoteForm() {
               <AlertCircle className="w-5 h-5 flex-shrink-0" />
               <p className="text-sm">
                 Something went wrong. Please try again or email us directly at{" "}
-                <a href={`mailto:${siteConfig.email}`} className="underline">
+                <a
+                  href={`mailto:${siteConfig.email}`}
+                  className="underline"
+                >
                   {siteConfig.email}
                 </a>
               </p>
