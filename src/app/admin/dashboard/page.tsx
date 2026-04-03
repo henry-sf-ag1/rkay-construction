@@ -71,7 +71,7 @@ function StatusBanner({ status }: { status: { type: 'success' | 'error'; msg: st
   return <div className={`${cls} rounded-lg px-4 py-3 text-sm mb-4`}>{status.msg}</div>;
 }
 
-function SaveButton({ loading, onClick }: { loading: boolean; onClick: () => void }) {
+function SaveButton({ loading, onClick, status }: { loading: boolean; onClick: () => void; status?: { type: 'success' | 'error'; msg: string } | null }) {
   return (
     <>
       {loading && (
@@ -86,12 +86,17 @@ function SaveButton({ loading, onClick }: { loading: boolean; onClick: () => voi
           </div>
         </div>
       )}
+      {status && (
+        <div className={`rounded-lg px-4 py-3 text-sm mb-2 ${status.type === 'success' ? 'bg-green-50 border border-green-300 text-green-800' : 'bg-red-50 border border-red-300 text-red-800'}`}>
+          {status.msg}
+        </div>
+      )}
       <button
         onClick={onClick}
         disabled={loading}
-        className="bg-yellow-500 hover:bg-yellow-600 disabled:bg-yellow-300 text-white font-semibold px-5 py-2 rounded-lg transition-colors"
+        className="w-full sm:w-auto bg-yellow-500 hover:bg-yellow-600 disabled:bg-yellow-300 text-white font-semibold px-5 py-3 rounded-lg transition-colors text-lg"
       >
-        {loading ? 'Saving…' : 'Save Changes'}
+        {loading ? 'Saving…' : '💾 Save Changes'}
       </button>
     </>
   );
@@ -308,7 +313,7 @@ function SettingsTab({ config, setConfig, onSave, saving, status }: {
       </div>
 
       <div className="flex justify-end">
-        <SaveButton loading={saving} onClick={onSave} />
+        <SaveButton loading={saving} onClick={onSave} status={status} />
       </div>
     </div>
   );
@@ -346,7 +351,7 @@ function ServicesTab({ config, setConfig, onSave, saving, status }: {
         + Add Service
       </button>
       <div className="flex justify-end">
-        <SaveButton loading={saving} onClick={onSave} />
+        <SaveButton loading={saving} onClick={onSave} status={status} />
       </div>
     </div>
   );
@@ -422,7 +427,7 @@ function ProjectsTab({ config, setConfig, onSave, saving, status }: {
         + Add Project
       </button>
       <div className="flex justify-end">
-        <SaveButton loading={saving} onClick={onSave} />
+        <SaveButton loading={saving} onClick={onSave} status={status} />
       </div>
     </div>
   );
@@ -463,7 +468,7 @@ function TestimonialsTab({ config, setConfig, onSave, saving, status }: {
         + Add Testimonial
       </button>
       <div className="flex justify-end">
-        <SaveButton loading={saving} onClick={onSave} />
+        <SaveButton loading={saving} onClick={onSave} status={status} />
       </div>
     </div>
   );
