@@ -129,4 +129,17 @@ export const siteConfig = {
     "Roofing",
     "Other",
   ],
+  theme: {
+    primaryColor: "#1e293b",
+    accentColor: "#d4a853",
+    backgroundColor: "#f8fafc",
+    textColor: "#1e293b",
+    lightTextColor: "#64748b",
+  },
+  quoteForm: {
+    title: "Get a Free Quote",
+    subtitle: "Tell us about your project and we'll provide a detailed, no-obligation quote.",
+    successMessage: "Thanks! We'll review your project details and get back to you within 24 hours.",
+    projectTypes: ["Extension", "Loft Conversion", "New Build", "Renovation", "Roofing", "Other"],
+  },
 };

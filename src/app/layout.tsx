@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { siteConfig } from "@/config/site";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,8 +24,22 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const { theme } = siteConfig;
+  const cssVars = `
+    :root {
+      --color-primary: ${theme.primaryColor};
+      --color-accent: ${theme.accentColor};
+      --color-background: ${theme.backgroundColor};
+      --color-text: ${theme.textColor};
+      --color-text-light: ${theme.lightTextColor};
+    }
+  `;
+
   return (
     <html lang="en" className="scroll-smooth">
+      <head>
+        <style dangerouslySetInnerHTML={{ __html: cssVars }} />
+      </head>
       <body className={inter.className}>{children}</body>
     </html>
   );

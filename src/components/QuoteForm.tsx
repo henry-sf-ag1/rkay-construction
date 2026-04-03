@@ -6,9 +6,12 @@ import { Send, CheckCircle, AlertCircle, Upload } from "lucide-react";
 interface QuoteFormProps {
   email: string;
   projectTypes?: string[];
+  formTitle?: string;
+  formSubtitle?: string;
+  successMessage?: string;
 }
 
-export default function QuoteForm({ email, projectTypes = [] }: QuoteFormProps) {
+export default function QuoteForm({ email, projectTypes = [], formTitle = 'Get a Free Quote', formSubtitle = "Tell us about your project and we'll provide a detailed, no-obligation quote.", successMessage = "Thanks! We'll review your project details and get back to you within 24 hours." }: QuoteFormProps) {
   const [status, setStatus] = useState<
     "idle" | "sending" | "success" | "error"
   >("idle");
@@ -55,8 +58,7 @@ export default function QuoteForm({ email, projectTypes = [] }: QuoteFormProps) 
             Quote Request Received!
           </h2>
           <p className="text-lg text-gray-600 mb-8">
-            Thank you for your enquiry. We&apos;ll review your project details
-            and get back to you within 24 hours.
+            {successMessage}
           </p>
           <button
             onClick={() => setStatus("idle")}
@@ -75,16 +77,11 @@ export default function QuoteForm({ email, projectTypes = [] }: QuoteFormProps) 
         {/* Section header */}
         <div className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl font-bold text-primary mb-2">
-            Get a Free Quote
+            {formTitle}
           </h2>
           <div className="w-16 h-1 bg-accent mx-auto mb-6" />
           <p className="text-gray-600">
-            Tell us about your project and we&apos;ll provide a detailed,
-            no-obligation quote.
-          </p>
-          <p className="text-sm text-gray-500 mt-2">
-            We&apos;ll review your project details and get back to you within 24
-            hours.
+            {formSubtitle}
           </p>
         </div>
 

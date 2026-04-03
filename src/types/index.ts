@@ -1,5 +1,20 @@
 // Shared types for CMS data
 
+export interface Theme {
+  primaryColor: string;
+  accentColor: string;
+  backgroundColor: string;
+  textColor: string;
+  lightTextColor: string;
+}
+
+export interface QuoteFormConfig {
+  title: string;
+  subtitle: string;
+  successMessage: string;
+  projectTypes: string[];
+}
+
 export interface SiteSettings {
   companyName: string;
   email: string;
@@ -13,6 +28,8 @@ export interface SiteSettings {
     linkedin: string;
   };
   projectTypes: string[];
+  theme: Theme;
+  quoteForm: QuoteFormConfig;
 }
 
 export interface ServiceData {

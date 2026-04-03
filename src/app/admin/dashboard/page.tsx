@@ -10,6 +10,19 @@ interface About { intro: string; values: AboutValue[]; }
 interface Service { title: string; description: string; }
 interface Project { title: string; description: string; location: string; image: string; }
 interface Testimonial { name: string; location: string; quote: string; }
+interface Theme {
+  primaryColor: string;
+  accentColor: string;
+  backgroundColor: string;
+  textColor: string;
+  lightTextColor: string;
+}
+interface QuoteFormConfig {
+  title: string;
+  subtitle: string;
+  successMessage: string;
+  projectTypes: string[];
+}
 
 interface SiteConfig {
   companyName: string;
@@ -24,6 +37,8 @@ interface SiteConfig {
   projects: Project[];
   testimonials: Testimonial[];
   projectTypes: string[];
+  theme: Theme;
+  quoteForm: QuoteFormConfig;
 }
 
 type Tab = 'settings' | 'services' | 'projects' | 'testimonials';
@@ -93,7 +108,30 @@ function Textarea({ label, value, onChange, rows = 3 }: {
   );
 }
 
-// ── Site Settings Tab ─────────────────────────────────────────────────────
+function ColorInput({ label, value, onChange }: {
+  label: string; value: string; onChange: (v: string) => void;
+}) {
+  return (
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+      <div className="flex items-center gap-2">
+        <input
+          type="color"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="h-10 w-14 cursor-pointer rounded border border-gray-300 p-0.5"
+        />
+        <input
+          type="text"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 text-sm font-mono"
+        />
+      </div>
+    </div>
+  );
+}
+
 function SettingsTab({ config, setConfig, onSave, saving, status }: {
   config: SiteConfig;
   setConfig: React.Dispatch<React.SetStateAction<SiteConfig | null>>;
@@ -107,6 +145,12 @@ function SettingsTab({ config, setConfig, onSave, saving, status }: {
     setConfig((c) => c ? { ...c, social: { ...c.social, [field]: v } } : c);
   const setAbout = (field: keyof About) => (v: string) =>
     setConfig((c) => c ? { ...c, about: { ...c.about, [field]: v } } : c);
+  const setTheme = (field: keyof Theme) => (v: string) =>
+    setConfig((c) => c ? { ...c, theme: { ...c.theme, [field]: v } } : c);
+  const setQuoteForm = (field: keyof QuoteFormConfig) => (v: string) =>
+    setConfig((c) => c ? { ...c, quoteForm: { ...c.quoteForm, [field]: v } } : c);
+  const setQuoteFormTypes = (v: string) =>
+    setConfig((c) => c ? { ...c, quoteForm: { ...c.quoteForm, projectTypes: v.split(',').map(s => s.trim()).filter(Boolean) } } : c);
 
   return (
     <div className="space-y-6">
@@ -132,6 +176,36 @@ function SettingsTab({ config, setConfig, onSave, saving, status }: {
       <div>
         <h3 className="font-semibold text-gray-800 mb-3">About Section</h3>
         <Textarea label="Introduction" value={config.about.intro} onChange={setAbout('intro')} rows={4} />
+      </div>
+
+      <div>
+        <h3 className="font-semibold text-gray-800 mb-3">Theme &amp; Colours</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <ColorInput label="Primary Colour (headers, buttons, nav)" value={config.theme?.primaryColor ?? '#1e293b'} onChange={setTheme('primaryColor')} />
+          <ColorInput label="Accent Colour (highlights, accents)" value={config.theme?.accentColor ?? '#d4a853'} onChange={setTheme('accentColor')} />
+          <ColorInput label="Background Colour" value={config.theme?.backgroundColor ?? '#f8fafc'} onChange={setTheme('backgroundColor')} />
+          <ColorInput label="Main Text Colour" value={config.theme?.textColor ?? '#1e293b'} onChange={setTheme('textColor')} />
+          <ColorInput label="Secondary Text Colour" value={config.theme?.lightTextColor ?? '#64748b'} onChange={setTheme('lightTextColor')} />
+        </div>
+      </div>
+
+      <div>
+        <h3 className="font-semibold text-gray-800 mb-3">Quote Form</h3>
+        <div className="space-y-3">
+          <Input label="Form Title" value={config.quoteForm?.title ?? 'Get a Free Quote'} onChange={setQuoteForm('title')} />
+          <Input label="Form Subtitle" value={config.quoteForm?.subtitle ?? ''} onChange={setQuoteForm('subtitle')} />
+          <Textarea label="Success Message" value={config.quoteForm?.successMessage ?? ''} onChange={setQuoteForm('successMessage')} rows={2} />
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Project Types (comma-separated)</label>
+            <input
+              type="text"
+              value={(config.quoteForm?.projectTypes ?? []).join(', ')}
+              onChange={(e) => setQuoteFormTypes(e.target.value)}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 text-sm"
+              placeholder="Extension, Loft Conversion, New Build, ..."
+            />
+          </div>
+        </div>
       </div>
 
       <div className="flex justify-end">

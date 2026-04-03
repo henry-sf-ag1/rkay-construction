@@ -22,6 +22,8 @@ export async function getSiteSettings(): Promise<SiteSettings> {
           linkedin: settings.social?.linkedin || siteConfig.social.linkedin,
         },
         projectTypes: settings.projectTypes?.length ? [...settings.projectTypes] : siteConfig.projectTypes,
+        theme: siteConfig.theme,
+        quoteForm: siteConfig.quoteForm,
       };
     }
   } catch (e) {
@@ -36,6 +38,8 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     subtagline: siteConfig.subtagline,
     social: siteConfig.social,
     projectTypes: siteConfig.projectTypes,
+    theme: siteConfig.theme,
+    quoteForm: siteConfig.quoteForm,
   };
 }
 
