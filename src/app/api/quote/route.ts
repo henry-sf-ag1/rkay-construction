@@ -130,9 +130,10 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Quote form error:", error);
+    const errMsg = error instanceof Error ? error.message : String(error);
+    console.error("Quote form error:", errMsg);
     return NextResponse.json(
-      { error: "Failed to process quote request." },
+      { error: "Failed to process quote request.", detail: errMsg },
       { status: 500 }
     );
   }
