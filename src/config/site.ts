@@ -57,19 +57,19 @@ export const siteConfig = {
     {
       "title": "Single-Storey Rear Extension — Chelmsford, Essex",
       "description": "A spacious single-storey rear extension adding a timeless, stylish kitchen and family living area. This project was concept, to completion.",
-      "image": "https://dshifhgxd8as8ou1.public.blob.vercel-storage.com/images/img_0498-1775236889372.jpeg",
+      "image": "https://dshifhgxd8as8ou1.public.blob.vercel-storage.com/images/project1-extension-1775239132027.jpg",
       "location": "Chelmsford, Essex"
     },
     {
       "title": "Double-Storey Side And Rear Extension — Buckhurst Hill, Essex ",
       "description": "Double storey side and rear extension, with a full house renovation including a traditional kitchen and two high spec bathrooms.",
-      "image": "https://dshifhgxd8as8ou1.public.blob.vercel-storage.com/images/img_0503-1775237851235.jpeg",
+      "image": "https://dshifhgxd8as8ou1.public.blob.vercel-storage.com/images/project2-extension-1775239244551.jpg",
       "location": "Buckhurst Hill, Essex"
     },
     {
       "title": "Full Renovation — Kent",
       "description": "Complete interior renovation of a 1930s semi-detached, modernised throughout.",
-      "image": "/images/projects/renovation-kent.jpg"
+      "image": "https://dshifhgxd8as8ou1.public.blob.vercel-storage.com/images/project3-renovation-1775239558092.jpg"
     },
     {
       "title": "New Build — Essex",
