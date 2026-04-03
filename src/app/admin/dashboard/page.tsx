@@ -430,14 +430,24 @@ function ProjectsTab({ config, setConfig, onSave, saving, status }: {
     }
     setUploading(i);
     setUploadError(null);
+    const safetyTimer = setTimeout(() => {
+      setUploading(null);
+      setUploadError('Upload timed out — please try again');
+      setTimeout(() => setUploadError(null), 5000);
+    }, 20000);
     try {
       const fd = new FormData();
       fd.append('file', file);
+      const controller = new AbortController();
+      const fetchTimer = setTimeout(() => controller.abort(), 15000);
       const res = await fetch('/api/admin/upload', {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` },
         body: fd,
+        signal: controller.signal,
       });
+      clearTimeout(fetchTimer);
+      clearTimeout(safetyTimer);
       const data = await res.json();
       if (res.ok) {
         update(i, 'image', data.path);
@@ -445,12 +455,15 @@ function ProjectsTab({ config, setConfig, onSave, saving, status }: {
         setUploadError(data.error || 'Upload failed');
         setTimeout(() => setUploadError(null), 5000);
       }
-    } catch {
-      setUploadError('Upload failed — connection error');
+    } catch (err: any) {
+      clearTimeout(safetyTimer);
+      setUploadError(err?.name === 'AbortError' ? 'Upload timed out — please try again' : 'Upload failed — connection error');
       setTimeout(() => setUploadError(null), 5000);
     } finally {
       setUploading(null);
     }
+    // Reset file input so same file can be re-selected
+    e.target.value = '';
   }
 
   return (
