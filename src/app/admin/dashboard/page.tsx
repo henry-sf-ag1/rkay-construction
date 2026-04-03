@@ -190,6 +190,9 @@ function SettingsTab({ config, setConfig, onSave, saving, status }: {
     });
   const setQuoteFormTypes = (v: string) =>
     setConfig((c) => c ? { ...c, quoteForm: { ...c.quoteForm, projectTypes: v.split(',').map(s => s.trim()).filter(Boolean) } } : c);
+  const [projectTypesText, setProjectTypesText] = useState(
+    (config.quoteForm?.projectTypes ?? []).join(', ')
+  );
 
   return (
     <div className="space-y-6">
@@ -274,8 +277,9 @@ function SettingsTab({ config, setConfig, onSave, saving, status }: {
             <label className="block text-sm font-medium text-gray-700 mb-1">Project Types (comma-separated)</label>
             <input
               type="text"
-              value={(config.quoteForm?.projectTypes ?? []).join(', ')}
-              onChange={(e) => setQuoteFormTypes(e.target.value)}
+              value={projectTypesText}
+              onChange={(e) => setProjectTypesText(e.target.value)}
+              onBlur={() => setQuoteFormTypes(projectTypesText)}
               className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 text-sm"
               placeholder="Extension, Loft Conversion, New Build, ..."
             />
