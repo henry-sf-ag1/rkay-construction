@@ -5,7 +5,44 @@ import type { SiteSettings, ServiceData, ProjectData, TestimonialData } from '@/
 
 const reader = createReader(process.cwd(), keystaticConfig);
 
+const BLOB_KEY = 'site-config.json';
+
+async function getSettingsFromBlob(): Promise<Partial<SiteSettings> | null> {
+  try {
+    const blobToken = process.env.BLOB_READ_WRITE_TOKEN;
+    if (!blobToken) return null;
+    const { list } = await import('@vercel/blob');
+    const { blobs } = await list({ prefix: BLOB_KEY });
+    const match = blobs.find((b) => b.pathname === BLOB_KEY);
+    if (!match) return null;
+    const res = await fetch(match.url, { cache: 'no-store' });
+    if (!res.ok) return null;
+    return await res.json();
+  } catch (e) {
+    console.error('Failed to read site settings from Vercel Blob:', e);
+    return null;
+  }
+}
+
 export async function getSiteSettings(): Promise<SiteSettings> {
+  // 1. Try Vercel Blob (fastest — near-instant updates)
+  const blobSettings = await getSettingsFromBlob();
+  if (blobSettings) {
+    return {
+      companyName: blobSettings.companyName || siteConfig.companyName,
+      email: blobSettings.email || siteConfig.email,
+      phone: blobSettings.phone || siteConfig.phone,
+      address: blobSettings.address || siteConfig.address,
+      tagline: blobSettings.tagline || siteConfig.tagline,
+      subtagline: blobSettings.subtagline || siteConfig.subtagline,
+      social: blobSettings.social || siteConfig.social,
+      projectTypes: blobSettings.projectTypes?.length ? blobSettings.projectTypes : siteConfig.projectTypes,
+      theme: siteConfig.theme,
+      quoteForm: siteConfig.quoteForm,
+    };
+  }
+
+  // 2. Fall back to Keystatic file reader
   try {
     const settings = await reader.singletons.siteSettings.read();
     if (settings) {
@@ -29,6 +66,8 @@ export async function getSiteSettings(): Promise<SiteSettings> {
   } catch (e) {
     console.error('Failed to read site settings from Keystatic:', e);
   }
+
+  // 3. Static fallback
   return {
     companyName: siteConfig.companyName,
     email: siteConfig.email,
