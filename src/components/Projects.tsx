@@ -31,7 +31,7 @@ export default function Projects({ projects }: ProjectsProps) {
             >
               {/* Image area */}
               {project.image ? (
-                <div className="relative h-64 sm:h-72">
+                <div className="relative aspect-[4/3]">
                   <Image
                     src={project.image}
                     alt={project.title}
@@ -40,7 +40,7 @@ export default function Projects({ projects }: ProjectsProps) {
                   />
                 </div>
               ) : (
-                <div className="construction-pattern h-64 sm:h-72 relative flex items-center justify-center">
+                <div className="construction-pattern aspect-[4/3] relative flex items-center justify-center">
                   <div className="bg-white/80 backdrop-blur-sm rounded-lg px-4 py-2 flex items-center gap-2">
                     <MapPin className="w-4 h-4 text-primary" />
                     <span className="text-sm font-medium text-primary">
