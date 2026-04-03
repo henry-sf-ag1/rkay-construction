@@ -7,7 +7,6 @@ import Testimonials from "@/components/Testimonials";
 import QuoteForm from "@/components/QuoteForm";
 import Footer from "@/components/Footer";
 import { getSiteSettings, getServices, getProjects, getTestimonials } from "@/lib/content";
-import { siteConfig } from "@/config/site";
 
 export const dynamic = 'force-dynamic'; // Dynamic rendering for near-instant content updates from blob storage
 
@@ -28,7 +27,7 @@ export default async function Home() {
         subtagline={settings.subtagline}
         heroImage={(settings as any).heroImage}
       />
-      <About intro={siteConfig.about.intro} values={siteConfig.about.values} />
+      <About intro={(settings as any).about?.intro || 'About us'} values={(settings as any).about?.values || []} />
       <Services services={services} />
       <Projects projects={projects} />
       <Testimonials testimonials={testimonials} />

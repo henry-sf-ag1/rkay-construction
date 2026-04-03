@@ -92,6 +92,18 @@ export async function getSiteSettings(): Promise<SiteSettings> {
 }
 
 export async function getServices(): Promise<ServiceData[]> {
+  // Try blob first
+  const blob = await getSettingsFromBlob();
+  if (blob && (blob as any).services?.length) {
+    return (blob as any).services.map((s: any, i: number) => ({
+      slug: `blob-${i}`,
+      title: s.title || '',
+      description: s.description || '',
+      icon: s.icon || '',
+      order: i,
+    }));
+  }
+  // Fall back to Keystatic
   try {
     const slugs = await reader.collections.services.list();
     const items = await Promise.all(
@@ -124,6 +136,19 @@ export async function getServices(): Promise<ServiceData[]> {
 }
 
 export async function getProjects(): Promise<ProjectData[]> {
+  // Try blob first
+  const blob = await getSettingsFromBlob();
+  if (blob && (blob as any).projects?.length) {
+    return (blob as any).projects.map((p: any, i: number) => ({
+      slug: `blob-${i}`,
+      title: p.title || '',
+      description: p.description || '',
+      location: p.location || 'UK',
+      image: p.image || null,
+      order: i,
+    }));
+  }
+  // Fall back to Keystatic
   try {
     const slugs = await reader.collections.projects.list();
     const items = await Promise.all(
@@ -158,6 +183,18 @@ export async function getProjects(): Promise<ProjectData[]> {
 }
 
 export async function getTestimonials(): Promise<TestimonialData[]> {
+  // Try blob first
+  const blob = await getSettingsFromBlob();
+  if (blob && (blob as any).testimonials?.length) {
+    return (blob as any).testimonials.map((t: any, i: number) => ({
+      slug: `blob-${i}`,
+      name: t.name || '',
+      location: t.location || '',
+      quote: t.quote || '',
+      order: i,
+    }));
+  }
+  // Fall back to Keystatic
   try {
     const slugs = await reader.collections.testimonials.list();
     const items = await Promise.all(

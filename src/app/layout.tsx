@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { siteConfig } from "@/config/site";
+import { getSiteSettings } from "@/lib/content";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,12 +19,21 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export const dynamic = 'force-dynamic';
+
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { theme } = siteConfig;
+  const settings = await getSiteSettings();
+  const theme = (settings as any).theme || {
+    primaryColor: '#1e293b',
+    accentColor: '#d4a853',
+    backgroundColor: '#f8fafc',
+    textColor: '#1e293b',
+    lightTextColor: '#64748b',
+  };
   const cssVars = `
     :root {
       --color-primary: ${theme.primaryColor};
