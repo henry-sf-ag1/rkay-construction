@@ -31,13 +31,12 @@ export default function Projects({ projects }: ProjectsProps) {
             >
               {/* Image area */}
               {project.image ? (
-                <div className="relative">
+                <div className="relative aspect-[16/10] bg-gray-100">
                   <Image
                     src={project.image}
                     alt={project.title}
-                    width={800}
-                    height={600}
-                    className="w-full h-auto"
+                    fill
+                    className="object-contain"
                   />
                 </div>
               ) : (
