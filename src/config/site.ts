@@ -152,13 +152,13 @@ export const siteConfig = {
       },
       "projectType": {
         "label": "Project Type",
-        "required": false,
+        "required": true,
         "show": true
       },
       "description": {
         "label": "Project Description",
         "placeholder": "Tell us about your project...",
-        "required": false,
+        "required": true,
         "show": true
       }
     }
