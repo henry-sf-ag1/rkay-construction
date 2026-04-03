@@ -22,6 +22,7 @@ export async function POST(req: NextRequest) {
       addRandomSuffix: false,
       allowOverwrite: true,
       contentType: 'application/json',
+      cacheControlMaxAge: 0,
     });
 
     // 2. Fire-and-forget GitHub commit (backup, non-blocking)
