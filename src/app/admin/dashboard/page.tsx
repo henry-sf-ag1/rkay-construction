@@ -565,36 +565,50 @@ export default function AdminDashboard() {
 
   async function handleSave() {
     if (!config) return;
+    if (saving) return;
     setSaving(true);
     setStatus(null);
+    const safetyTimer = setTimeout(() => {
+      setSaving(false);
+      setStatus({ type: 'error', msg: 'Save timed out — please try again' });
+      setTimeout(() => setStatus(null), 5000);
+    }, 15000);
     let lastError = '';
-    for (let attempt = 1; attempt <= 3; attempt++) {
+    for (let attempt = 1; attempt <= 2; attempt++) {
       try {
+        const controller = new AbortController();
+        const fetchTimer = setTimeout(() => controller.abort(), 8000);
         const res = await fetch('/api/admin/save', {
           method: 'POST',
           headers: authHeaders(),
           body: JSON.stringify({ config }),
+          signal: controller.signal,
         });
+        clearTimeout(fetchTimer);
         const data = await res.json();
         if (res.ok) {
+          clearTimeout(safetyTimer);
           setStatus({ type: 'success', msg: data.message || '✅ Saved!' });
           setSaving(false);
           setTimeout(() => setStatus(null), 6000);
           return;
         }
         if (res.status === 401) {
+          clearTimeout(safetyTimer);
           setStatus({ type: 'error', msg: 'Session expired — please log in again' });
           localStorage.removeItem('admin_token');
+          setSaving(false);
           window.location.reload();
           return;
         }
         lastError = data.error || `Save failed (${res.status})`;
-      } catch {
-        lastError = 'Connection error';
+      } catch (e: any) {
+        lastError = e?.name === 'AbortError' ? 'Request timed out' : 'Connection error';
       }
-      if (attempt < 3) await new Promise(r => setTimeout(r, 1000 * attempt));
+      if (attempt < 2) await new Promise(r => setTimeout(r, 1500));
     }
-    setStatus({ type: 'error', msg: `${lastError} — tried 3 times. Please try again.` });
+    clearTimeout(safetyTimer);
+    setStatus({ type: 'error', msg: `${lastError} — please try again` });
     setSaving(false);
     setTimeout(() => setStatus(null), 8000);
   }
