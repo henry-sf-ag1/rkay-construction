@@ -256,57 +256,44 @@ function SettingsTab({ config, setConfig, onSave, saving, status }: {
           {/* Per-field customisation */}
           <div>
             <h4 className="text-sm font-semibold text-gray-700 mt-4 mb-2">Form Fields</h4>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="text-left px-3 py-2 text-gray-600 font-medium w-24">Field</th>
-                    <th className="text-left px-3 py-2 text-gray-600 font-medium">Label</th>
-                    <th className="text-left px-3 py-2 text-gray-600 font-medium">Placeholder</th>
-                    <th className="text-center px-3 py-2 text-gray-600 font-medium w-20">Required</th>
-                    <th className="text-center px-3 py-2 text-gray-600 font-medium w-16">Show</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100">
-                  {(['name', 'email', 'phone', 'projectType', 'description'] as const).map((fieldName) => {
-                    const f = config.quoteForm?.fields?.[fieldName] ?? { label: fieldName, placeholder: '', required: false, show: true };
-                    return (
-                      <tr key={fieldName} className="bg-white hover:bg-gray-50">
-                        <td className="px-3 py-2 font-medium text-gray-500 capitalize">{fieldName}</td>
-                        <td className="px-3 py-2">
-                          <input
-                            type="text" value={f.label}
-                            onChange={(e) => setQuoteFormField(fieldName, 'label')(e.target.value)}
-                            className="w-full border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-yellow-500"
-                          />
-                        </td>
-                        <td className="px-3 py-2">
-                          <input
-                            type="text" value={f.placeholder ?? ''}
-                            onChange={(e) => setQuoteFormField(fieldName, 'placeholder')(e.target.value)}
-                            className="w-full border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-yellow-500"
-                            placeholder="—"
-                          />
-                        </td>
-                        <td className="px-3 py-2 text-center">
-                          <input
-                            type="checkbox" checked={f.required}
+            <div className="space-y-4">
+              {(['name', 'email', 'phone', 'projectType', 'description'] as const).map((fieldName) => {
+                const f = config.quoteForm?.fields?.[fieldName] ?? { label: fieldName, placeholder: '', required: false, show: true };
+                return (
+                  <div key={fieldName} className="border border-gray-200 rounded-lg p-4 bg-white">
+                    <p className="text-sm font-semibold text-gray-600 capitalize mb-3">{fieldName}</p>
+                    <div className="space-y-3">
+                      <div>
+                        <label className="block text-xs text-gray-500 mb-1">Label</label>
+                        <input type="text" value={f.label}
+                          onChange={(e) => setQuoteFormField(fieldName, 'label')(e.target.value)}
+                          className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-yellow-500" />
+                      </div>
+                      <div>
+                        <label className="block text-xs text-gray-500 mb-1">Placeholder</label>
+                        <input type="text" value={f.placeholder ?? ''}
+                          onChange={(e) => setQuoteFormField(fieldName, 'placeholder')(e.target.value)}
+                          className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-yellow-500"
+                          placeholder="—" />
+                      </div>
+                      <div className="flex items-center gap-6">
+                        <label className="flex items-center gap-2 text-sm text-gray-600">
+                          <input type="checkbox" checked={f.required}
                             onChange={(e) => setQuoteFormField(fieldName, 'required')(e.target.checked)}
-                            className="w-4 h-4 rounded border-gray-300 text-yellow-500 focus:ring-yellow-500"
-                          />
-                        </td>
-                        <td className="px-3 py-2 text-center">
-                          <input
-                            type="checkbox" checked={f.show}
+                            className="w-4 h-4 rounded border-gray-300 text-yellow-500 focus:ring-yellow-500" />
+                          Required
+                        </label>
+                        <label className="flex items-center gap-2 text-sm text-gray-600">
+                          <input type="checkbox" checked={f.show}
                             onChange={(e) => setQuoteFormField(fieldName, 'show')(e.target.checked)}
-                            className="w-4 h-4 rounded border-gray-300 text-yellow-500 focus:ring-yellow-500"
-                          />
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                            className="w-4 h-4 rounded border-gray-300 text-yellow-500 focus:ring-yellow-500" />
+                          Show
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
