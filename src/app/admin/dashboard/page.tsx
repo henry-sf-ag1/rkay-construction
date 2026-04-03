@@ -167,6 +167,8 @@ function SettingsTab({ config, setConfig, onSave, saving, status }: {
   saving: boolean;
   status: { type: 'success' | 'error'; msg: string } | null;
 }) {
+  const [heroUploading, setHeroUploading] = useState(false);
+  const token = typeof window !== 'undefined' ? localStorage.getItem('admin_token') : null;
   const set = (field: keyof SiteConfig) => (v: string) =>
     setConfig((c) => c ? { ...c, [field]: v } : c);
   const setSocial = (field: keyof SocialLinks) => (v: string) =>
@@ -199,6 +201,42 @@ function SettingsTab({ config, setConfig, onSave, saving, status }: {
         <Input label="Address" value={config.address} onChange={set('address')} />
         <Input label="Tagline" value={config.tagline} onChange={set('tagline')} />
         <Input label="Sub-tagline" value={config.subtagline} onChange={set('subtagline')} />
+      </div>
+
+      {/* Hero Image */}
+      <div>
+        <h3 className="font-semibold text-gray-800 mb-3">Hero Background Image</h3>
+        <div className="flex items-center gap-4">
+          {(config as any).heroImage && (
+            <img src={(config as any).heroImage} alt="Hero" className="h-20 w-32 object-cover rounded border" />
+          )}
+          {!(config as any).heroImage && (
+            <div className="h-20 w-32 bg-gray-100 rounded border flex items-center justify-center text-xs text-gray-400">Default image</div>
+          )}
+          <label className="cursor-pointer bg-yellow-500 hover:bg-yellow-600 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+            {heroUploading ? 'Uploading…' : 'Upload New Image'}
+            <input type="file" accept="image/*" className="hidden" onChange={async (e) => {
+              const file = e.target.files?.[0];
+              if (!file || !token) return;
+              setHeroUploading(true);
+              try {
+                const fd = new FormData();
+                fd.append('file', file);
+                fd.append('filename', 'hero-bg');
+                const res = await fetch('/api/admin/upload', {
+                  method: 'POST',
+                  headers: { Authorization: `Bearer ${token}` },
+                  body: fd,
+                });
+                const data = await res.json();
+                if (res.ok) setConfig((c) => c ? { ...c, heroImage: data.path } as any : c);
+              } finally {
+                setHeroUploading(false);
+              }
+            }} />
+          </label>
+        </div>
+        <p className="text-xs text-gray-500 mt-1">Recommended: wide landscape image, at least 1920px wide</p>
       </div>
 
       <div>

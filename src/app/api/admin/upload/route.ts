@@ -22,12 +22,15 @@ export async function POST(req: NextRequest) {
     }
 
     // Sanitize filename
+    const customName = formData.get('filename') as string | null;
     const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg';
-    const safeName = file.name
-      .replace(/\.[^/.]+$/, '')
-      .replace(/[^a-zA-Z0-9-_]/g, '-')
-      .toLowerCase()
-      .slice(0, 60);
+    const safeName = customName
+      ? customName.replace(/[^a-zA-Z0-9-_]/g, '-').toLowerCase()
+      : file.name
+        .replace(/\.[^/.]+$/, '')
+        .replace(/[^a-zA-Z0-9-_]/g, '-')
+        .toLowerCase()
+        .slice(0, 60);
     const timestamp = Date.now();
     const filename = `${safeName}-${timestamp}.${ext}`;
     const filePath = `public/images/projects/${filename}`;

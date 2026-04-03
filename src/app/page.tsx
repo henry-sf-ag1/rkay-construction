@@ -26,6 +26,7 @@ export default async function Home() {
         companyName={settings.companyName}
         tagline={settings.tagline}
         subtagline={settings.subtagline}
+        heroImage={(settings as any).heroImage}
       />
       <About intro={siteConfig.about.intro} values={siteConfig.about.values} />
       <Services services={services} />

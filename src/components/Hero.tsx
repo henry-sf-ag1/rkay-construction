@@ -4,19 +4,21 @@ interface HeroProps {
   companyName: string;
   tagline: string;
   subtagline: string;
+  heroImage?: string;
 }
 
 export default function Hero({
   companyName,
   tagline,
   subtagline,
+  heroImage,
 }: HeroProps) {
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-20">
       {/* Hero background image */}
       <div className="absolute inset-0 overflow-hidden">
         <Image
-          src="/images/hero-bg.jpg"
+          src={heroImage || "/images/hero-bg.jpg"}
           alt="Construction site background"
           fill
           priority
