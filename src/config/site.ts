@@ -1,9 +1,9 @@
 export const siteConfig = {
   "companyName": "R Kay Construction",
   "email": "ryan@rkayconstruction.co.uk",
-  "phone": "+44 1234 567 890",
-  "address": "ZERO CACHE TEST",
-  "tagline": "Quality Residential Construction Across the UK",
+  "phone": "07753335751",
+  "address": "Essex and London, United Kingdom",
+  "tagline": "Quality Residential Construction Across Essex and London",
   "subtagline": "Extensions • Renovations • New Builds • Loft Conversions",
   "social": {
     "facebook": "#",
@@ -49,8 +49,8 @@ export const siteConfig = {
       "description": "Load-bearing wall removal, RSJ installation, and structural reconfigurations."
     },
     {
-      "title": "Roofing & Repairs",
-      "description": "Full roof replacements, repairs, and maintenance to protect your home."
+      "title": "Full House Renovations",
+      "description": "Full house renovations, from minor works to updating your entire home if you are looking for an alternative to extending or major structural work."
     }
   ],
   "projects": [
@@ -111,23 +111,21 @@ export const siteConfig = {
     "Other"
   ],
   "theme": {
-    "primaryColor": "#1e293b",
-    "accentColor": "#d4a853",
+    "primaryColor": "#333333",
+    "accentColor": "#c2c2c2",
     "backgroundColor": "#f8fafc",
     "textColor": "#1e293b",
-    "lightTextColor": "#64748b"
+    "lightTextColor": "#707070"
   },
   "quoteForm": {
     "title": "Get a Free Quote",
     "subtitle": "Tell us about your project and we'll provide a detailed, no-obligation quote.",
-    "successMessage": "Thanks! We'll review your project details and get back to you within 24 hours.",
+    "successMessage": "Thanks! We'll review your project details and get back to you ASAP!",
     "projectTypes": [
       "Extension",
       "Loft Conversion",
-      "New Build",
-      "Renovation",
-      "Roofing",
-      "Other"
+      "New Builds",
+      "Renovations"
     ],
     "buttonText": "Request a Quote",
     "showFileUpload": true,
@@ -162,5 +160,6 @@ export const siteConfig = {
         "show": true
       }
     }
-  }
+  },
+  "heroImage": "https://dshifhgxd8as8ou1.public.blob.vercel-storage.com/images/hero-bg-1775231154982.jpg"
 };
