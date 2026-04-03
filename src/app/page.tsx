@@ -33,10 +33,7 @@ export default async function Home() {
       <Testimonials testimonials={testimonials} />
       <QuoteForm
         email={settings.email}
-        projectTypes={settings.quoteForm.projectTypes}
-        formTitle={settings.quoteForm.title}
-        formSubtitle={settings.quoteForm.subtitle}
-        successMessage={settings.quoteForm.successMessage}
+        quoteForm={settings.quoteForm}
       />
       <Footer
         companyName={settings.companyName}

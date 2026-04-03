@@ -17,11 +17,20 @@ interface Theme {
   textColor: string;
   lightTextColor: string;
 }
+interface FormField {
+  label: string;
+  placeholder?: string;
+  required: boolean;
+  show: boolean;
+}
 interface QuoteFormConfig {
   title: string;
   subtitle: string;
   successMessage: string;
   projectTypes: string[];
+  buttonText: string;
+  showFileUpload: boolean;
+  fields: Record<string, FormField>;
 }
 
 interface SiteConfig {
@@ -147,8 +156,17 @@ function SettingsTab({ config, setConfig, onSave, saving, status }: {
     setConfig((c) => c ? { ...c, about: { ...c.about, [field]: v } } : c);
   const setTheme = (field: keyof Theme) => (v: string) =>
     setConfig((c) => c ? { ...c, theme: { ...c.theme, [field]: v } } : c);
-  const setQuoteForm = (field: keyof QuoteFormConfig) => (v: string) =>
+  const setQuoteForm = (field: keyof Omit<QuoteFormConfig, 'fields' | 'projectTypes' | 'showFileUpload'>) => (v: string) =>
     setConfig((c) => c ? { ...c, quoteForm: { ...c.quoteForm, [field]: v } } : c);
+  const setQuoteFormBool = (field: keyof QuoteFormConfig) => (v: boolean) =>
+    setConfig((c) => c ? { ...c, quoteForm: { ...c.quoteForm, [field]: v } } : c);
+  const setQuoteFormField = (fieldName: string, key: keyof FormField) => (v: string | boolean) =>
+    setConfig((c) => {
+      if (!c) return c;
+      const fields = { ...c.quoteForm.fields };
+      fields[fieldName] = { ...fields[fieldName], [key]: v } as FormField;
+      return { ...c, quoteForm: { ...c.quoteForm, fields } };
+    });
   const setQuoteFormTypes = (v: string) =>
     setConfig((c) => c ? { ...c, quoteForm: { ...c.quoteForm, projectTypes: v.split(',').map(s => s.trim()).filter(Boolean) } } : c);
 
@@ -204,6 +222,73 @@ function SettingsTab({ config, setConfig, onSave, saving, status }: {
               className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 text-sm"
               placeholder="Extension, Loft Conversion, New Build, ..."
             />
+          </div>
+          <Input label="Button Text" value={config.quoteForm?.buttonText ?? 'Request a Quote'} onChange={setQuoteForm('buttonText')} />
+          <div className="flex items-center gap-3">
+            <input
+              type="checkbox"
+              id="showFileUpload"
+              checked={config.quoteForm?.showFileUpload ?? true}
+              onChange={(e) => setQuoteFormBool('showFileUpload')(e.target.checked)}
+              className="w-4 h-4 rounded border-gray-300 text-yellow-500 focus:ring-yellow-500"
+            />
+            <label htmlFor="showFileUpload" className="text-sm font-medium text-gray-700">Show file upload field</label>
+          </div>
+          {/* Per-field customisation */}
+          <div>
+            <h4 className="text-sm font-semibold text-gray-700 mt-4 mb-2">Form Fields</h4>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="text-left px-3 py-2 text-gray-600 font-medium w-24">Field</th>
+                    <th className="text-left px-3 py-2 text-gray-600 font-medium">Label</th>
+                    <th className="text-left px-3 py-2 text-gray-600 font-medium">Placeholder</th>
+                    <th className="text-center px-3 py-2 text-gray-600 font-medium w-20">Required</th>
+                    <th className="text-center px-3 py-2 text-gray-600 font-medium w-16">Show</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {(['name', 'email', 'phone', 'projectType', 'description'] as const).map((fieldName) => {
+                    const f = config.quoteForm?.fields?.[fieldName] ?? { label: fieldName, placeholder: '', required: false, show: true };
+                    return (
+                      <tr key={fieldName} className="bg-white hover:bg-gray-50">
+                        <td className="px-3 py-2 font-medium text-gray-500 capitalize">{fieldName}</td>
+                        <td className="px-3 py-2">
+                          <input
+                            type="text" value={f.label}
+                            onChange={(e) => setQuoteFormField(fieldName, 'label')(e.target.value)}
+                            className="w-full border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-yellow-500"
+                          />
+                        </td>
+                        <td className="px-3 py-2">
+                          <input
+                            type="text" value={f.placeholder ?? ''}
+                            onChange={(e) => setQuoteFormField(fieldName, 'placeholder')(e.target.value)}
+                            className="w-full border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-yellow-500"
+                            placeholder="—"
+                          />
+                        </td>
+                        <td className="px-3 py-2 text-center">
+                          <input
+                            type="checkbox" checked={f.required}
+                            onChange={(e) => setQuoteFormField(fieldName, 'required')(e.target.checked)}
+                            className="w-4 h-4 rounded border-gray-300 text-yellow-500 focus:ring-yellow-500"
+                          />
+                        </td>
+                        <td className="px-3 py-2 text-center">
+                          <input
+                            type="checkbox" checked={f.show}
+                            onChange={(e) => setQuoteFormField(fieldName, 'show')(e.target.checked)}
+                            className="w-4 h-4 rounded border-gray-300 text-yellow-500 focus:ring-yellow-500"
+                          />
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

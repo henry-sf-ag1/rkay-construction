@@ -8,11 +8,21 @@ export interface Theme {
   lightTextColor: string;
 }
 
+export interface FormField {
+  label: string;
+  placeholder?: string;
+  required: boolean;
+  show: boolean;
+}
+
 export interface QuoteFormConfig {
   title: string;
   subtitle: string;
   successMessage: string;
   projectTypes: string[];
+  buttonText: string;
+  showFileUpload: boolean;
+  fields: Record<string, FormField>;
 }
 
 export interface SiteSettings {

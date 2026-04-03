@@ -141,5 +141,14 @@ export const siteConfig = {
     subtitle: "Tell us about your project and we'll provide a detailed, no-obligation quote.",
     successMessage: "Thanks! We'll review your project details and get back to you within 24 hours.",
     projectTypes: ["Extension", "Loft Conversion", "New Build", "Renovation", "Roofing", "Other"],
+    buttonText: "Request a Quote",
+    showFileUpload: true,
+    fields: {
+      name: { label: "Full Name", placeholder: "John Smith", required: true, show: true },
+      email: { label: "Email", placeholder: "john@example.com", required: true, show: true },
+      phone: { label: "Phone Number", placeholder: "+44 7700 900000", required: true, show: true },
+      projectType: { label: "Project Type", required: false, show: true },
+      description: { label: "Project Description", placeholder: "Tell us about your project...", required: false, show: true },
+    },
   },
 };
