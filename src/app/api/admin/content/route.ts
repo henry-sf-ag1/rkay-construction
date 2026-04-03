@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyAdminToken } from '@/lib/admin-auth';
+import { head } from '@vercel/blob';
 
 const BLOB_KEY = 'site-config.json';
 
@@ -12,23 +13,20 @@ export async function GET(req: NextRequest) {
   try {
     const blobToken = process.env.BLOB_READ_WRITE_TOKEN;
     if (blobToken) {
-      // Construct the public blob URL pattern
-      // We use the @vercel/blob head() to find the URL, then fetch it
-      const { head } = await import('@vercel/blob');
       try {
-        // Try to find the blob by listing (we know the pathname)
-        const { list } = await import('@vercel/blob');
-        const { blobs } = await list({ prefix: BLOB_KEY });
-        const match = blobs.find((b) => b.pathname === BLOB_KEY);
-        if (match) {
-          const res = await fetch(match.url, { cache: 'no-store' });
+        const blobMeta = await head(BLOB_KEY);
+        if (blobMeta?.url) {
+          const res = await fetch(blobMeta.url, { cache: 'no-store' });
           if (res.ok) {
             const config = await res.json();
             return NextResponse.json({ config, source: 'blob' });
           }
         }
-      } catch (e) {
-        console.error('Blob list failed:', e);
+      } catch (e: unknown) {
+        const msg = e instanceof Error ? e.message : String(e);
+        if (!msg.includes('not found')) {
+          console.error('Blob head failed:', msg);
+        }
       }
     }
   } catch (e) {

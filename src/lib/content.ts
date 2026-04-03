@@ -11,13 +11,16 @@ async function getSettingsFromBlob(): Promise<Partial<SiteSettings> | null> {
   try {
     const blobToken = process.env.BLOB_READ_WRITE_TOKEN;
     if (!blobToken) return null;
-    const { list } = await import('@vercel/blob');
-    const { blobs } = await list({ prefix: BLOB_KEY });
-    const match = blobs.find((b) => b.pathname === BLOB_KEY);
-    if (!match) return null;
-    const res = await fetch(match.url, { cache: 'no-store' });
-    if (!res.ok) return null;
-    return await res.json();
+    const { head } = await import('@vercel/blob');
+    try {
+      const blobMeta = await head(BLOB_KEY);
+      if (!blobMeta?.url) return null;
+      const res = await fetch(blobMeta.url, { cache: 'no-store' });
+      if (!res.ok) return null;
+      return await res.json();
+    } catch {
+      return null;
+    }
   } catch (e) {
     console.error('Failed to read site settings from Vercel Blob:', e);
     return null;
