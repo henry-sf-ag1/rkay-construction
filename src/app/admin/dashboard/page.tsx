@@ -232,15 +232,26 @@ function SettingsTab({ config, setConfig, onSave, saving, status }: {
                 const fd = new FormData();
                 fd.append('file', file);
                 fd.append('filename', 'hero-bg');
+                const controller = new AbortController();
+                const fetchTimer = setTimeout(() => controller.abort(), 15000);
                 const res = await fetch('/api/admin/upload', {
                   method: 'POST',
                   headers: { Authorization: `Bearer ${token}` },
                   body: fd,
+                  signal: controller.signal,
                 });
+                clearTimeout(fetchTimer);
                 const data = await res.json();
-                if (res.ok) setConfig((c) => c ? { ...c, heroImage: data.path } : c);
+                if (res.ok) {
+                  setConfig((c) => c ? { ...c, heroImage: data.path } : c);
+                } else {
+                  alert('Hero image upload failed: ' + (data.error || 'Unknown error'));
+                }
+              } catch (err: any) {
+                alert(err?.name === 'AbortError' ? 'Upload timed out — please try again' : 'Upload failed — connection error');
               } finally {
                 setHeroUploading(false);
+                e.target.value = '';
               }
             }} />
           </label>

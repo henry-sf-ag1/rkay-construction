@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { put } from "@vercel/blob";
 
 async function getAccessToken(): Promise<string> {
   const clientId = process.env.SMTP_CLIENT_ID!;
@@ -60,12 +61,43 @@ export async function POST(request: NextRequest) {
     const projectType = formData.get("projectType") as string;
     const description = formData.get("description") as string;
 
+    // Collect all attached files
+    const attachmentFiles = formData.getAll("attachment") as File[];
+
     if (!name || !email || !phone) {
       return NextResponse.json(
         { error: "Name, email, and phone are required." },
         { status: 400 }
       );
     }
+
+    // Upload attachments to Vercel Blob and collect download URLs
+    const attachmentLinks: { name: string; url: string }[] = [];
+    if (attachmentFiles.length > 0 && process.env.BLOB_READ_WRITE_TOKEN) {
+      for (const file of attachmentFiles) {
+        if (!file || !file.name) continue;
+        try {
+          const safeName = file.name
+            .replace(/[^a-zA-Z0-9._-]/g, '-')
+            .slice(0, 80);
+          const timestamp = Date.now();
+          const blob = await put(`quote-attachments/${timestamp}-${safeName}`, file, {
+            access: 'public',
+            addRandomSuffix: false,
+            allowOverwrite: true,
+          });
+          attachmentLinks.push({ name: file.name, url: blob.url });
+        } catch (uploadErr) {
+          console.error('Failed to upload attachment:', file.name, uploadErr);
+        }
+      }
+    }
+
+    const attachmentsHtml = attachmentLinks.length > 0
+      ? `<tr><td style="padding: 12px; font-weight: bold; vertical-align: top; border-top: 1px solid #eee;">Attachments</td><td style="padding: 12px; border-top: 1px solid #eee;">` +
+        attachmentLinks.map(a => `<a href="${a.url}" style="display:block; color:#1B2838;">${a.name}</a>`).join('') +
+        `</td></tr>`
+      : '';
 
     const emailHtml = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -79,6 +111,7 @@ export async function POST(request: NextRequest) {
             <tr><td style="padding: 12px; font-weight: bold; border-bottom: 1px solid #eee;">Phone</td><td style="padding: 12px; border-bottom: 1px solid #eee;"><a href="tel:${phone}">${phone}</a></td></tr>
             <tr><td style="padding: 12px; font-weight: bold; border-bottom: 1px solid #eee;">Project Type</td><td style="padding: 12px; border-bottom: 1px solid #eee;">${projectType || "Not specified"}</td></tr>
             <tr><td style="padding: 12px; font-weight: bold; vertical-align: top;">Description</td><td style="padding: 12px;">${description ? description.replace(/\n/g, "<br>") : "No description provided"}</td></tr>
+            ${attachmentsHtml}
           </table>
         </div>
         <div style="padding: 12px; text-align: center; color: #999; font-size: 12px;">Sent from R Kay Construction website</div>

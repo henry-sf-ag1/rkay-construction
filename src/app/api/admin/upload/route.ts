@@ -35,8 +35,9 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ path: blob.url });
-  } catch (err) {
+  } catch (err: any) {
+    const message = err?.message || String(err);
     console.error('Upload error:', err);
-    return NextResponse.json({ error: 'Internal error' }, { status: 500 });
+    return NextResponse.json({ error: `Upload failed: ${message}` }, { status: 500 });
   }
 }
