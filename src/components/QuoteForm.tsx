@@ -22,7 +22,19 @@ export default function QuoteForm({ email, quoteForm }: QuoteFormProps) {
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    // Check total file size before submitting (Vercel limit ~4MB)
+    if (files && files.length > 0) {
+      const totalSize = Array.from(files).reduce((sum, f) => sum + f.size, 0);
+      if (totalSize > 4 * 1024 * 1024) {
+        setStatus("error");
+        return;
+      }
+    }
+
     setStatus("sending");
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 30000);
     try {
       const form = e.currentTarget;
       const formData = new FormData(form);
@@ -30,10 +42,12 @@ export default function QuoteForm({ email, quoteForm }: QuoteFormProps) {
         const fileNames = Array.from(files).map((f) => f.name).join(", ");
         formData.append("_attached_files", fileNames);
       }
-      const res = await fetch("/api/quote", { method: "POST", body: formData });
+      const res = await fetch("/api/quote", { method: "POST", body: formData, signal: controller.signal });
+      clearTimeout(timeout);
       if (res.ok) { setStatus("success"); form.reset(); setFiles(null); }
       else setStatus("error");
     } catch {
+      clearTimeout(timeout);
       setStatus("error");
     }
   }
@@ -160,7 +174,7 @@ export default function QuoteForm({ email, quoteForm }: QuoteFormProps) {
                   <span className="text-primary font-medium hover:underline">Click to upload</span>{" "}
                   or drag and drop
                   <br />
-                  <span className="text-xs text-gray-400">PDF, JPG, PNG, DWG — Multiple files allowed</span>
+                  <span className="text-xs text-gray-400">PDF, JPG, PNG, DWG — Multiple files allowed (4MB total max)</span>
                 </label>
                 {files && files.length > 0 && (
                   <p className="mt-3 text-sm text-primary font-medium">
@@ -176,8 +190,9 @@ export default function QuoteForm({ email, quoteForm }: QuoteFormProps) {
             <div className="flex items-center gap-2 text-red-600 bg-red-50 p-4 rounded-lg">
               <AlertCircle className="w-5 h-5 flex-shrink-0" />
               <p className="text-sm">
-                Something went wrong. Please try again or email us directly at{" "}
-                <a href={`mailto:${email}`} className="underline">{email}</a>
+                {files && Array.from(files).reduce((s, f) => s + f.size, 0) > 4 * 1024 * 1024
+                  ? "Files are too large (4MB max total). Please reduce file sizes or attach fewer files."
+                  : <>Something went wrong. Please try again or email us directly at{" "}<a href={`mailto:${email}`} className="underline">{email}</a></>}
               </p>
             </div>
           )}

@@ -73,9 +73,10 @@ export async function POST(request: NextRequest) {
 
     // Upload attachments to Vercel Blob and collect download URLs
     const attachmentLinks: { name: string; url: string }[] = [];
-    if (attachmentFiles.length > 0 && process.env.BLOB_READ_WRITE_TOKEN) {
-      for (const file of attachmentFiles) {
-        if (!file || !file.name) continue;
+    const validFiles = attachmentFiles.filter(f => f && f.name && f.size > 0 && f.size <= 4 * 1024 * 1024);
+    if (validFiles.length > 0 && process.env.BLOB_READ_WRITE_TOKEN) {
+      // Limit to 5 files max to prevent timeout
+      for (const file of validFiles.slice(0, 5)) {
         try {
           const safeName = file.name
             .replace(/[^a-zA-Z0-9._-]/g, '-')
