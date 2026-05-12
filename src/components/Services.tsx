@@ -33,9 +33,10 @@ const fallbackIcons: LucideIcon[] = [
 
 interface ServicesProps {
   services: ServiceData[];
+  subtitle?: string;
 }
 
-export default function Services({ services }: ServicesProps) {
+export default function Services({ services, subtitle }: ServicesProps) {
   return (
     <section id="services" className="py-24 bg-light-grey">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -46,8 +47,7 @@ export default function Services({ services }: ServicesProps) {
           </h2>
           <div className="w-16 h-1 bg-accent mx-auto mb-8" />
           <p className="text-lg text-services-text max-w-2xl mx-auto">
-            From foundations to finishing touches, we deliver comprehensive
-            residential construction services.
+            {subtitle || 'From foundations to finishing touches, we deliver comprehensive residential construction services.'}
           </p>
         </div>
 

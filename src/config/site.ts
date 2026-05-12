@@ -178,5 +178,9 @@ export const siteConfig = {
       }
     }
   },
-  "heroImage": "https://dshifhgxd8as8ou1.public.blob.vercel-storage.com/images/hero-bg-1775231154982.jpg"
+  "heroImage": "https://dshifhgxd8as8ou1.public.blob.vercel-storage.com/images/hero-bg-1775231154982.jpg",
+  "sectionSubtitles": {
+    "ourWork": "A selection of our recent residential construction projects across the UK.",
+    "services": "From foundations to finishing touches, we deliver comprehensive residential construction services."
+  }
 };

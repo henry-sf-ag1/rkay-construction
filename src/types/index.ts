@@ -25,6 +25,11 @@ export interface QuoteFormConfig {
   fields: Record<string, FormField>;
 }
 
+export interface SectionSubtitles {
+  ourWork: string;
+  services: string;
+}
+
 export interface SiteSettings {
   companyName: string;
   email: string;
@@ -40,6 +45,15 @@ export interface SiteSettings {
   projectTypes: string[];
   theme: Theme;
   quoteForm: QuoteFormConfig;
+  sectionSubtitles: SectionSubtitles;
+  about?: {
+    intro: string;
+    values: Array<{ title: string; description: string }>;
+  };
+  services?: Array<{ title: string; description: string }>;
+  projects?: Array<{ title: string; description: string; location?: string; image?: string }>;
+  testimonials?: Array<{ name: string; location: string; quote: string }>;
+  heroImage?: string | null;
 }
 
 export interface ServiceData {

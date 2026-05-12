@@ -4,9 +4,10 @@ import type { ProjectData } from "@/types";
 
 interface ProjectsProps {
   projects: ProjectData[];
+  subtitle?: string;
 }
 
-export default function Projects({ projects }: ProjectsProps) {
+export default function Projects({ projects, subtitle }: ProjectsProps) {
   return (
     <section id="projects" className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -17,8 +18,7 @@ export default function Projects({ projects }: ProjectsProps) {
           </h2>
           <div className="w-16 h-1 bg-accent mx-auto mb-8" />
           <p className="text-lg text-projects-text max-w-2xl mx-auto">
-            A selection of our recent residential construction projects across
-            the UK.
+            {subtitle || 'A selection of our recent residential construction projects across the UK.'}
           </p>
         </div>
 

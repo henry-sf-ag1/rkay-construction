@@ -28,8 +28,14 @@ export default async function Home() {
         heroImage={(settings as any).heroImage}
       />
       <About intro={(settings as any).about?.intro || 'About us'} values={(settings as any).about?.values || []} />
-      <Services services={services} />
-      <Projects projects={projects} />
+      <Services
+        services={services}
+        subtitle={(settings as any).sectionSubtitles?.services}
+      />
+      <Projects
+        projects={projects}
+        subtitle={(settings as any).sectionSubtitles?.ourWork}
+      />
       <Testimonials testimonials={testimonials} />
       <QuoteForm
         email={settings.email}

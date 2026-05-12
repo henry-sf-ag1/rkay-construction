@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 interface SocialLinks { facebook: string; instagram: string; linkedin: string; }
 interface AboutValue { title: string; description: string; }
 interface About { intro: string; values: AboutValue[]; }
+interface SectionSubtitles { ourWork: string; services: string; }
 interface Service { title: string; description: string; }
 interface Project { title: string; description: string; location: string; image: string; }
 interface Testimonial { name: string; location: string; quote: string; }
@@ -53,6 +54,7 @@ interface SiteConfig {
   projectTypes: string[];
   theme: Theme;
   quoteForm: QuoteFormConfig;
+  sectionSubtitles: SectionSubtitles;
   heroImage?: string;
 }
 
@@ -381,6 +383,8 @@ function ServicesTab({ config, setConfig, onSave, saving, status }: {
   saving: boolean;
   status: { type: 'success' | 'error'; msg: string } | null;
 }) {
+  const setSectionSubtitle = (v: string) =>
+    setConfig((c) => c ? { ...c, sectionSubtitles: { ...c.sectionSubtitles, services: v } } : c);
   const update = (i: number, field: keyof Service, v: string) =>
     setConfig((c) => { if (!c) return c; const s = [...c.services]; s[i] = { ...s[i], [field]: v }; return { ...c, services: s }; });
   const add = () =>
@@ -391,6 +395,14 @@ function ServicesTab({ config, setConfig, onSave, saving, status }: {
   return (
     <div className="space-y-4">
       <StatusBanner status={status} />
+      <div className="border border-gray-200 rounded-lg p-4 space-y-3 bg-white">
+        <Textarea
+          label="Text under “Our Services”"
+          value={config.sectionSubtitles?.services ?? ''}
+          onChange={setSectionSubtitle}
+          rows={3}
+        />
+      </div>
       {config.services.map((svc, i) => (
         <div key={i} className="border border-gray-200 rounded-lg p-4 space-y-3">
           <div className="flex justify-between items-center">
@@ -422,6 +434,8 @@ function ProjectsTab({ config, setConfig, onSave, saving, status }: {
   const [uploading, setUploading] = useState<number | null>(null);
   const token = getToken();
 
+  const setSectionSubtitle = (v: string) =>
+    setConfig((c) => c ? { ...c, sectionSubtitles: { ...c.sectionSubtitles, ourWork: v } } : c);
   const update = (i: number, field: keyof Project, v: string) =>
     setConfig((c) => { if (!c) return c; const p = [...c.projects]; p[i] = { ...p[i], [field]: v }; return { ...c, projects: p }; });
   const add = () =>
@@ -480,6 +494,14 @@ function ProjectsTab({ config, setConfig, onSave, saving, status }: {
   return (
     <div className="space-y-4">
       <StatusBanner status={status} />
+      <div className="border border-gray-200 rounded-lg p-4 space-y-3 bg-white">
+        <Textarea
+          label="Text under “Our Work”"
+          value={config.sectionSubtitles?.ourWork ?? ''}
+          onChange={setSectionSubtitle}
+          rows={3}
+        />
+      </div>
       {uploadError && (
         <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-2 rounded-lg text-sm">
           {uploadError}
@@ -640,7 +662,7 @@ export default function AdminDashboard() {
   const tabs: { id: Tab; label: string }[] = [
     { id: 'settings', label: 'Site Settings' },
     { id: 'services', label: 'Services' },
-    { id: 'projects', label: 'Projects' },
+    { id: 'projects', label: 'Our Work' },
     { id: 'testimonials', label: 'Testimonials' },
   ];
 
