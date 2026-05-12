@@ -43,7 +43,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
       projectTypes: blobSettings.projectTypes?.length ? blobSettings.projectTypes : siteConfig.projectTypes,
       theme: (blobSettings as any).theme || siteConfig.theme,
       quoteForm: (blobSettings as any).quoteForm || siteConfig.quoteForm,
-      sectionSubtitles: (blobSettings as any).sectionSubtitles || siteConfig.sectionSubtitles,
+      sectionSubtitles: (blobSettings as any).sectionSubtitles || (siteConfig as any).sectionSubtitles,
       about: (blobSettings as any).about || siteConfig.about,
       services: (blobSettings as any).services || siteConfig.services,
       projects: (blobSettings as any).projects || siteConfig.projects,

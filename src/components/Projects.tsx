@@ -18,7 +18,7 @@ export default function Projects({ projects, subtitle }: ProjectsProps) {
           </h2>
           <div className="w-16 h-1 bg-accent mx-auto mb-8" />
           <p className="text-lg text-projects-text max-w-2xl mx-auto">
-            {subtitle || 'A selection of our recent residential construction projects across the UK.'}
+            {subtitle || 'A selection of our recent residential construction projects across Essex and London.'}
           </p>
         </div>
 
