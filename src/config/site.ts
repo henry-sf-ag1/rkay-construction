@@ -180,7 +180,7 @@ export const siteConfig = {
   },
   "heroImage": "https://dshifhgxd8as8ou1.public.blob.vercel-storage.com/images/hero-bg-1775231154982.jpg",
   "sectionSubtitles": {
-    "ourWork": "Recent residential construction projects across Essex and London.",
+    "ourWork": "RKay Construction are an Epping based, trusted building and home improvement company, delivering quality craftsmanship across Essex and London.",
     "services": "From foundations to finishing touches, we deliver comprehensive residential construction services."
   }
 };
