@@ -1,8 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyAdminToken } from '@/lib/admin-auth';
 import { head } from '@vercel/blob';
+import { siteConfig } from '@/config/site';
 
 const BLOB_KEY = 'site-config.json';
+
+// Fill in any fields missing from the stored blob with static defaults,
+// so new config fields (e.g. sectionSubtitles added later) show their current
+// site text in the admin UI instead of an empty box.
+function mergeWithDefaults(stored: any) {
+  const merged = { ...(siteConfig as any), ...(stored || {}) };
+  merged.social = { ...(siteConfig as any).social, ...(stored?.social || {}) };
+  merged.about = { ...(siteConfig as any).about, ...(stored?.about || {}) };
+  merged.theme = { ...(siteConfig as any).theme, ...(stored?.theme || {}) };
+  merged.quoteForm = {
+    ...(siteConfig as any).quoteForm,
+    ...(stored?.quoteForm || {}),
+    fields: {
+      ...((siteConfig as any).quoteForm?.fields || {}),
+      ...(stored?.quoteForm?.fields || {}),
+    },
+  };
+  merged.sectionSubtitles = {
+    ...((siteConfig as any).sectionSubtitles || {}),
+    ...(stored?.sectionSubtitles || {}),
+  };
+  return merged;
+}
 
 export async function GET(req: NextRequest) {
   if (!(await verifyAdminToken(req))) {
@@ -20,7 +44,7 @@ export async function GET(req: NextRequest) {
           const res = await fetch(cacheBust, { cache: 'no-store' });
           if (res.ok) {
             const config = await res.json();
-            return NextResponse.json({ config, source: 'blob' });
+            return NextResponse.json({ config: mergeWithDefaults(config), source: 'blob' });
           }
         }
       } catch (e: unknown) {
@@ -64,7 +88,7 @@ export async function GET(req: NextRequest) {
 
     // eslint-disable-next-line no-new-func
     const config = new Function(`return ${match[1]}`)();
-    return NextResponse.json({ config, source: 'github' });
+    return NextResponse.json({ config: mergeWithDefaults(config), source: 'github' });
   } catch (err) {
     console.error('Content read error:', err);
     return NextResponse.json({ error: 'Internal error' }, { status: 500 });
