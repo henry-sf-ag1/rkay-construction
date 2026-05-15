@@ -4,7 +4,7 @@
   "phone": "07753335751",
   "address": "Essex and London, United Kingdom",
   "tagline": "Quality Residential Construction Across Essex and London",
-  "subtagline": "Extensions \u2022 Renovations \u2022 New Builds \u2022 Loft Conversions",
+  "subtagline": "Extensions • Renovations • New Builds • Loft Conversions",
   "social": {
     "facebook": "https://www.facebook.com/share/188KY2nZRZ/?mibextid=wwXIfr",
     "instagram": "https://www.instagram.com/rkayconstruction?igsh=MXBsMHc2cnE2ZWZiaw%3D%3D&utm_source=qr",
@@ -19,7 +19,7 @@
       },
       {
         "title": "Reliable Service",
-        "description": "We deliver on our promises \u2014 on time, on budget, and with clear communication throughout."
+        "description": "We deliver on our promises — on time, on budget, and with clear communication throughout."
       },
       {
         "title": "Competitive Pricing",
@@ -55,55 +55,49 @@
   ],
   "projects": [
     {
-      "title": "Single-Storey Rear Extension \u2014 Chelmsford, Essex",
+      "title": "Single-Storey Rear Extension — Chelmsford, Essex",
       "description": "A spacious single-storey rear extension adding a timeless, stylish kitchen and family living area. This project was concept, to completion.",
-      "image": "https://dshifhgxd8as8ou1.public.blob.vercel-storage.com/images/project1-extension-1775239132027.jpg",
+      "image": "/images/projects/extension-surrey.jpg",
       "location": "Chelmsford, Essex"
     },
     {
-      "title": "Double-Storey Side And Rear Extension \u2014 Buckhurst Hill, Essex ",
+      "title": "Double-Storey Side And Rear Extension — Buckhurst Hill, Essex",
       "description": "Double storey side and rear extension, with a full house renovation including a traditional kitchen and two high spec bathrooms.",
-      "image": "https://dshifhgxd8as8ou1.public.blob.vercel-storage.com/images/project2-extension-1775239244551.jpg",
+      "image": "/images/projects/loft-london.jpg",
       "location": "Buckhurst Hill, Essex"
     },
     {
-      "title": "Single Storey Extension \u2014 Epping, Essex",
+      "title": "Single Storey Extension — Epping, Essex",
       "description": "Single storey extension, creating an open plan kitchen-dining-living space, complete with premium finishes",
-      "image": "https://dshifhgxd8as8ou1.public.blob.vercel-storage.com/images/project3-renovation-1775239558092.jpg"
+      "image": "/images/projects/renovation-kent.jpg"
     },
     {
-      "title": "New Build \u2014 Great Dunmow, Essex",
-      "description": "Four-bedroom detached new build with part brick and part timber cladded facade. Full interior install, with bespoke finishes throughout. ",
-      "image": "https://dshifhgxd8as8ou1.public.blob.vercel-storage.com/images/project4-newbuild-1775243714081.jpg"
+      "title": "New Build — Great Dunmow, Essex",
+      "description": "Four-bedroom detached new build with part brick and part timber cladded facade. Full interior install, with bespoke finishes throughout.",
+      "image": "/images/projects/newbuild-essex.jpg"
     },
     {
-      "title": "Kitchen Remodel \u2014 Woodford Green, Essex",
+      "title": "Kitchen Remodel — Woodford Green, Essex",
       "description": "Full kitchen Refurb with beautiful quartz worktops, finished with top spec appliances.",
-      "image": "https://dshifhgxd8as8ou1.public.blob.vercel-storage.com/images/img_0518-1775244815223.jpeg"
+      "image": "/images/projects/kitchen-hampshire.jpg"
     },
     {
-      "title": "Single Storey Rear Extension \u2014 Galleywood, Essex",
+      "title": "Single Storey Rear Extension — Galleywood, Essex",
       "description": "Single storey rear extension, porcelain tiled patio area, full ground floor refurbishment.",
       "location": "",
-      "image": "https://dshifhgxd8as8ou1.public.blob.vercel-storage.com/images/img_0520-1775251309546.jpeg"
+      "image": "/images/projects/roofing-berkshire.jpg"
     },
     {
-      "title": "Single Storey Rear Extension ",
+      "title": "Single Storey Rear Extension",
       "description": "Single storey rear extension with a full width, modern composite decking area. Full ground floor refurb with a high end kitchen and utility room.",
       "location": "",
-      "image": "https://dshifhgxd8as8ou1.public.blob.vercel-storage.com/images/img_0522-1775251449752.jpeg"
+      "image": "/images/projects/extension-surrey.jpg"
     },
     {
-      "title": "Singley Storey Rear Extension \u2014 Wanstead",
+      "title": "Single Storey Rear Extension — Wanstead",
       "description": "A Stunning yellow stock brick extension with floor-to-ceiling glazed corner windows, seamlessly connecting indoor living with the garden. A new contemporary kitchen to add to the beauty of this build.",
       "location": "",
-      "image": "https://dshifhgxd8as8ou1.public.blob.vercel-storage.com/images/project8-extension-1775316363273.jpg"
-    },
-    {
-      "title": "Garden Room \u2014 Buckhurst Hill, Essex",
-      "description": "A 24m2 garden room built for family entertainment and somewhere to enjoy those summer evenings.",
-      "location": "",
-      "image": ""
+      "image": "/images/projects/renovation-kent.jpg"
     }
   ],
   "testimonials": [
@@ -120,7 +114,7 @@
     {
       "name": "Emma & Chris Potter",
       "location": "Epping, Essex",
-      "quote": "Ryan and his team were recommended to us through our architect. From the initial site visit to the final walkthrough, everything was handled with care and consideration. A lot of builders can build you an extension, but there aren\u2019t many that go above and beyond to make sure it isn\u2019t just an extension, but your dream home."
+      "quote": "Ryan and his team were recommended to us through our architect. From the initial site visit to the final walkthrough, everything was handled with care and consideration. A lot of builders can build you an extension, but there aren't many that go above and beyond to make sure it isn't just an extension, but your dream home."
     }
   ],
   "projectTypes": [
@@ -184,9 +178,8 @@
       }
     }
   },
-  "heroImage": "https://dshifhgxd8as8ou1.public.blob.vercel-storage.com/images/hero-bg-1775231154982.jpg",
   "sectionSubtitles": {
-    "ourWork": "Take a look at some of our recently completed projects across Essex and London.",
+    "ourWork": "RKay Construction are an Epping based, trusted building and home improvement company, delivering quality craftsmanship across Essex and London.",
     "services": "From foundations to finishing touches, we deliver comprehensive residential construction services."
   }
 }
