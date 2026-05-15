@@ -1,165 +1,118 @@
-import { createReader } from '@keystatic/core/reader';
-import keystaticConfig from '../../keystatic.config';
 import { siteConfig } from '@/config/site';
 import type { SiteSettings, ServiceData, ProjectData, TestimonialData } from '@/types';
 
-const reader = createReader(process.cwd(), keystaticConfig);
+const REPO = 'henry-sf-ag1/rkay-construction';
+const CONFIG_PATH = 'content/site-config.json';
+const BRANCH = 'master';
+
+// Fetch live config from GitHub — works at runtime without a rebuild.
+// All pages are dynamic (server-rendered on demand), so this runs per request.
+// Uses a short revalidation so Vercel's data cache doesn't stale it.
+async function getLiveConfig(): Promise<any | null> {
+  const pat = process.env.GITHUB_PAT;
+  if (!pat) return null;
+  try {
+    const res = await fetch(
+      `https://api.github.com/repos/${REPO}/contents/${CONFIG_PATH}?ref=${BRANCH}`,
+      {
+        headers: { Authorization: `token ${pat}`, Accept: 'application/vnd.github.v3+json' },
+        next: { revalidate: 15 }, // cache for 15s to avoid hammering GitHub API
+      }
+    );
+    if (!res.ok) return null;
+    const data = await res.json();
+    return JSON.parse(Buffer.from(data.content, 'base64').toString('utf-8'));
+  } catch (e) {
+    console.error('Failed to fetch live config:', e);
+    return null;
+  }
+}
 
 export async function getSiteSettings(): Promise<SiteSettings> {
-  // Try Keystatic file reader (admin saves now go to siteConfig directly via GitHub)
-  try {
-    const settings = await reader.singletons.siteSettings.read();
-    if (settings) {
-      return {
-        companyName: settings.companyName || siteConfig.companyName,
-        email: settings.email || siteConfig.email,
-        phone: settings.phone || siteConfig.phone,
-        address: settings.address || siteConfig.address,
-        tagline: settings.tagline || siteConfig.tagline,
-        subtagline: settings.subtagline || siteConfig.subtagline,
-        social: {
-          facebook: settings.social?.facebook || siteConfig.social.facebook,
-          instagram: settings.social?.instagram || siteConfig.social.instagram,
-          linkedin: settings.social?.linkedin || siteConfig.social.linkedin,
-        },
-        projectTypes: settings.projectTypes?.length ? [...settings.projectTypes] : siteConfig.projectTypes,
-        theme: siteConfig.theme,
-        quoteForm: siteConfig.quoteForm,
-        sectionSubtitles: siteConfig.sectionSubtitles,
-      };
-    }
-  } catch (e) {
-    console.error('Failed to read site settings from Keystatic:', e);
-  }
+  const live = await getLiveConfig();
+  const base = live || siteConfig;
 
-  // Static fallback (this is the primary path now — siteConfig is updated via admin -> GitHub commits)
   return {
-    companyName: siteConfig.companyName,
-    email: siteConfig.email,
-    phone: siteConfig.phone,
-    address: siteConfig.address,
-    tagline: siteConfig.tagline,
-    subtagline: siteConfig.subtagline,
-    social: siteConfig.social,
-    projectTypes: siteConfig.projectTypes,
-    theme: siteConfig.theme,
-    quoteForm: siteConfig.quoteForm,
-    sectionSubtitles: siteConfig.sectionSubtitles,
-    about: (siteConfig as any).about,
-    services: (siteConfig as any).services,
-    projects: (siteConfig as any).projects,
-    testimonials: (siteConfig as any).testimonials,
-    heroImage: (siteConfig as any).heroImage || null,
+    companyName: base.companyName || siteConfig.companyName,
+    email: base.email || siteConfig.email,
+    phone: base.phone || siteConfig.phone,
+    address: base.address || siteConfig.address,
+    tagline: base.tagline || siteConfig.tagline,
+    subtagline: base.subtagline || siteConfig.subtagline,
+    social: { ...siteConfig.social, ...(base.social || {}) },
+    projectTypes: base.projectTypes?.length ? base.projectTypes : siteConfig.projectTypes,
+    theme: { ...(siteConfig as any).theme, ...(base.theme || {}) },
+    quoteForm: { ...(siteConfig as any).quoteForm, ...(base.quoteForm || {}) },
+    sectionSubtitles: { ...(siteConfig as any).sectionSubtitles, ...(base.sectionSubtitles || {}) },
+    about: base.about || (siteConfig as any).about,
+    services: base.services || (siteConfig as any).services,
+    projects: base.projects || (siteConfig as any).projects,
+    testimonials: base.testimonials || (siteConfig as any).testimonials,
+    heroImage: base.heroImage || null,
   } as SiteSettings;
 }
 
 export async function getServices(): Promise<ServiceData[]> {
-  // Read from siteConfig first (admin saves update this via GitHub commit)
-  if (siteConfig.services?.length) {
-    return siteConfig.services.map((s, i) => ({
-      slug: `static-${i}`,
-      title: s.title,
-      description: s.description,
-      icon: '',
+  const live = await getLiveConfig();
+  const services = live?.services || (siteConfig as any).services;
+  if (services?.length) {
+    return services.map((s: any, i: number) => ({
+      slug: `cfg-${i}`,
+      title: s.title || '',
+      description: s.description || '',
+      icon: s.icon || '',
       order: i,
     }));
   }
-  // Fall back to Keystatic
-  try {
-    const slugs = await reader.collections.services.list();
-    const items = await Promise.all(
-      slugs.map(async (slug) => {
-        const entry = await reader.collections.services.read(slug);
-        if (!entry) return null;
-        return {
-          slug,
-          title: (typeof entry.title === 'object' ? (entry.title as any).name : entry.title) || slug,
-          description: entry.description || '',
-          icon: entry.icon || '',
-          order: entry.order ?? 0,
-        } satisfies ServiceData;
-      })
-    );
-    const filtered = items.filter(Boolean) as ServiceData[];
-    if (filtered.length > 0) {
-      return filtered.sort((a, b) => a.order - b.order);
-    }
-  } catch (e) {
-    console.error('Failed to read services from Keystatic:', e);
-  }
-  return [];
+  return siteConfig.services.map((s, i) => ({
+    slug: `static-${i}`,
+    title: s.title,
+    description: s.description,
+    icon: '',
+    order: i,
+  }));
 }
 
 export async function getProjects(): Promise<ProjectData[]> {
-  // Read from siteConfig first
-  if (siteConfig.projects?.length) {
-    return siteConfig.projects.map((p, i) => ({
-      slug: `static-${i}`,
-      title: p.title,
-      description: p.description,
-      location: (p as any).location || p.title.split('—')[1]?.trim() || 'UK',
-      image: (p as any).image || null,
+  const live = await getLiveConfig();
+  const projects = live?.projects || (siteConfig as any).projects;
+  if (projects?.length) {
+    return projects.map((p: any, i: number) => ({
+      slug: `cfg-${i}`,
+      title: p.title || '',
+      description: p.description || '',
+      location: p.location || p.title?.split('—')[1]?.trim() || 'UK',
+      image: p.image || null,
       order: i,
     }));
   }
-  try {
-    const slugs = await reader.collections.projects.list();
-    const items = await Promise.all(
-      slugs.map(async (slug) => {
-        const entry = await reader.collections.projects.read(slug);
-        if (!entry) return null;
-        return {
-          slug,
-          title: (typeof entry.title === 'object' ? (entry.title as any).name : entry.title) || slug,
-          description: entry.description || '',
-          location: entry.location || 'UK',
-          image: typeof entry.image === 'string' ? entry.image : (entry.image as any)?.src || null,
-          order: entry.order ?? 0,
-        } satisfies ProjectData;
-      })
-    );
-    const filtered = items.filter(Boolean) as ProjectData[];
-    if (filtered.length > 0) {
-      return filtered.sort((a, b) => a.order - b.order);
-    }
-  } catch (e) {
-    console.error('Failed to read projects from Keystatic:', e);
-  }
-  return [];
+  return siteConfig.projects.map((p, i) => ({
+    slug: `static-${i}`,
+    title: p.title,
+    description: p.description,
+    location: (p as any).location || p.title.split('—')[1]?.trim() || 'UK',
+    image: (p as any).image || null,
+    order: i,
+  }));
 }
 
 export async function getTestimonials(): Promise<TestimonialData[]> {
-  // Read from siteConfig first
-  if (siteConfig.testimonials?.length) {
-    return siteConfig.testimonials.map((t, i) => ({
-      slug: `static-${i}`,
-      name: t.name,
-      location: t.location,
-      quote: t.quote,
+  const live = await getLiveConfig();
+  const testimonials = live?.testimonials || (siteConfig as any).testimonials;
+  if (testimonials?.length) {
+    return testimonials.map((t: any, i: number) => ({
+      slug: `cfg-${i}`,
+      name: t.name || '',
+      location: t.location || '',
+      quote: t.quote || '',
       order: i,
     }));
   }
-  try {
-    const slugs = await reader.collections.testimonials.list();
-    const items = await Promise.all(
-      slugs.map(async (slug) => {
-        const entry = await reader.collections.testimonials.read(slug);
-        if (!entry) return null;
-        return {
-          slug,
-          name: (typeof entry.name === 'object' ? (entry.name as any).name : entry.name) || slug,
-          location: entry.location || '',
-          quote: entry.quote || '',
-          order: entry.order ?? 0,
-        } satisfies TestimonialData;
-      })
-    );
-    const filtered = items.filter(Boolean) as TestimonialData[];
-    if (filtered.length > 0) {
-      return filtered.sort((a, b) => a.order - b.order);
-    }
-  } catch (e) {
-    console.error('Failed to read testimonials from Keystatic:', e);
-  }
-  return [];
+  return siteConfig.testimonials.map((t, i) => ({
+    slug: `static-${i}`,
+    name: t.name,
+    location: t.location,
+    quote: t.quote,
+    order: i,
+  }));
 }

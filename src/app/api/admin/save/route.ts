@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { verifyAdminToken } from '@/lib/admin-auth';
 
 const REPO = 'henry-sf-ag1/rkay-construction';
-const FILE_PATH = 'src/config/site.ts';
+const CONFIG_PATH = 'content/site-config.json';
 const BRANCH = 'master';
 
 export async function POST(req: NextRequest) {
@@ -18,11 +18,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Server misconfigured: missing GITHUB_PAT' }, { status: 500 });
     }
 
-    await commitToGitHub(pat, config);
+    await commitConfigToGitHub(pat, config);
 
     return NextResponse.json({
       success: true,
-      message: 'Saved! Changes will go live in ~30 seconds.',
+      message: 'Saved! Changes will appear on the site within ~10 seconds.',
     });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
@@ -31,21 +31,23 @@ export async function POST(req: NextRequest) {
   }
 }
 
-async function commitToGitHub(pat: string, config: unknown) {
+async function commitConfigToGitHub(pat: string, config: unknown) {
+  const jsonContent = JSON.stringify(config, null, 2) + '\n';
+  const encoded = Buffer.from(jsonContent).toString('base64');
+
+  // Check if file already exists (need its SHA to update)
+  let existingSha: string | undefined;
   const getRes = await fetch(
-    `https://api.github.com/repos/${REPO}/contents/${FILE_PATH}?ref=${BRANCH}`,
+    `https://api.github.com/repos/${REPO}/contents/${CONFIG_PATH}?ref=${BRANCH}`,
     { headers: { Authorization: `token ${pat}`, Accept: 'application/vnd.github.v3+json' } }
   );
-  if (!getRes.ok) {
-    throw new Error(`Failed to fetch current file from GitHub (${getRes.status})`);
+  if (getRes.ok) {
+    const data = await getRes.json();
+    existingSha = data.sha;
   }
-  const current = await getRes.json();
-
-  const newContent = `export const siteConfig = ${JSON.stringify(config, null, 2)};\n`;
-  const encoded = Buffer.from(newContent).toString('base64');
 
   const putRes = await fetch(
-    `https://api.github.com/repos/${REPO}/contents/${FILE_PATH}`,
+    `https://api.github.com/repos/${REPO}/contents/${CONFIG_PATH}`,
     {
       method: 'PUT',
       headers: {
@@ -54,9 +56,9 @@ async function commitToGitHub(pat: string, config: unknown) {
         Accept: 'application/vnd.github.v3+json',
       },
       body: JSON.stringify({
-        message: 'Update site content via admin panel',
+        message: 'Update site config via admin panel',
         content: encoded,
-        sha: current.sha,
+        sha: existingSha,
         branch: BRANCH,
       }),
     }
