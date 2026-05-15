@@ -1,16 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '*.public.blob.vercel-storage.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'raw.githubusercontent.com',
-      },
-    ],
+    // Unoptimized: images served directly from source URL.
+    // Avoids domain whitelisting requirements and works with GitHub raw URLs.
+    // Upload-time compression (sharp) handles file sizes instead.
+    unoptimized: true,
   },
 };
 
