@@ -4,7 +4,7 @@ import sharp from 'sharp';
 
 const REPO = 'henry-sf-ag1/rkay-construction';
 const BRANCH = 'master';
-const MAX_WIDTH = 1400; // px — good for web display of construction photos
+const MAX_WIDTH = 1400;
 const JPEG_QUALITY = 82;
 
 export async function POST(req: NextRequest) {
@@ -28,7 +28,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'File too large (max 20MB)' }, { status: 400 });
     }
 
-    // Sanitize filename (always save as .jpg after compression)
     const customName = formData.get('filename') as string | null;
     const safeName = customName
       ? customName.replace(/[^a-zA-Z0-9-_]/g, '-').toLowerCase()
@@ -40,7 +39,7 @@ export async function POST(req: NextRequest) {
     const filename = `${safeName}-${Date.now()}.jpg`;
     const filePath = `public/uploads/${filename}`;
 
-    // Read & compress with sharp
+    // Compress with sharp — handles large phone photos without timeout
     const buffer = Buffer.from(await file.arrayBuffer());
     const compressed = await sharp(buffer)
       .resize({ width: MAX_WIDTH, withoutEnlargement: true })
@@ -49,7 +48,7 @@ export async function POST(req: NextRequest) {
 
     const base64 = compressed.toString('base64');
 
-    // Commit to GitHub repo (served by Vercel as static asset)
+    // Commit to GitHub
     const putRes = await fetch(
       `https://api.github.com/repos/${REPO}/contents/${filePath}`,
       {
@@ -72,7 +71,9 @@ export async function POST(req: NextRequest) {
       throw new Error(`GitHub upload error: ${JSON.stringify(err)}`);
     }
 
-    return NextResponse.json({ path: `/uploads/${filename}` });
+    // Return GitHub raw URL — accessible immediately, no Vercel rebuild needed
+    const rawUrl = `https://raw.githubusercontent.com/${REPO}/${BRANCH}/${filePath}`;
+    return NextResponse.json({ path: rawUrl });
   } catch (err: any) {
     const message = err?.message || String(err);
     console.error('Upload error:', message);
