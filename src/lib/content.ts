@@ -5,54 +5,8 @@ import type { SiteSettings, ServiceData, ProjectData, TestimonialData } from '@/
 
 const reader = createReader(process.cwd(), keystaticConfig);
 
-const BLOB_KEY = 'site-config.json';
-
-async function getSettingsFromBlob(): Promise<Partial<SiteSettings> | null> {
-  try {
-    const blobToken = process.env.BLOB_READ_WRITE_TOKEN;
-    if (!blobToken) return null;
-    const { head } = await import('@vercel/blob');
-    try {
-      const blobMeta = await head(BLOB_KEY);
-      if (!blobMeta?.url) return null;
-      const cacheBust = `${blobMeta.url}${blobMeta.url.includes('?') ? '&' : '?'}t=${Date.now()}`;
-      const res = await fetch(cacheBust, { cache: 'no-store' });
-      if (!res.ok) return null;
-      return await res.json();
-    } catch {
-      return null;
-    }
-  } catch (e) {
-    console.error('Failed to read site settings from Vercel Blob:', e);
-    return null;
-  }
-}
-
 export async function getSiteSettings(): Promise<SiteSettings> {
-  // 1. Try Vercel Blob (fastest — near-instant updates)
-  const blobSettings = await getSettingsFromBlob();
-  if (blobSettings) {
-    return {
-      companyName: blobSettings.companyName || siteConfig.companyName,
-      email: blobSettings.email || siteConfig.email,
-      phone: blobSettings.phone || siteConfig.phone,
-      address: blobSettings.address || siteConfig.address,
-      tagline: blobSettings.tagline || siteConfig.tagline,
-      subtagline: blobSettings.subtagline || siteConfig.subtagline,
-      social: blobSettings.social || siteConfig.social,
-      projectTypes: blobSettings.projectTypes?.length ? blobSettings.projectTypes : siteConfig.projectTypes,
-      theme: (blobSettings as any).theme || siteConfig.theme,
-      quoteForm: (blobSettings as any).quoteForm || siteConfig.quoteForm,
-      sectionSubtitles: (blobSettings as any).sectionSubtitles || (siteConfig as any).sectionSubtitles,
-      about: (blobSettings as any).about || siteConfig.about,
-      services: (blobSettings as any).services || siteConfig.services,
-      projects: (blobSettings as any).projects || siteConfig.projects,
-      testimonials: (blobSettings as any).testimonials || siteConfig.testimonials,
-      heroImage: (blobSettings as any).heroImage || null,
-    } as SiteSettings;
-  }
-
-  // 2. Fall back to Keystatic file reader
+  // Try Keystatic file reader (admin saves now go to siteConfig directly via GitHub)
   try {
     const settings = await reader.singletons.siteSettings.read();
     if (settings) {
@@ -78,7 +32,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     console.error('Failed to read site settings from Keystatic:', e);
   }
 
-  // 3. Static fallback
+  // Static fallback (this is the primary path now — siteConfig is updated via admin -> GitHub commits)
   return {
     companyName: siteConfig.companyName,
     email: siteConfig.email,
@@ -91,18 +45,22 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     theme: siteConfig.theme,
     quoteForm: siteConfig.quoteForm,
     sectionSubtitles: siteConfig.sectionSubtitles,
-  };
+    about: (siteConfig as any).about,
+    services: (siteConfig as any).services,
+    projects: (siteConfig as any).projects,
+    testimonials: (siteConfig as any).testimonials,
+    heroImage: (siteConfig as any).heroImage || null,
+  } as SiteSettings;
 }
 
 export async function getServices(): Promise<ServiceData[]> {
-  // Try blob first
-  const blob = await getSettingsFromBlob();
-  if (blob && (blob as any).services?.length) {
-    return (blob as any).services.map((s: any, i: number) => ({
-      slug: `blob-${i}`,
-      title: s.title || '',
-      description: s.description || '',
-      icon: s.icon || '',
+  // Read from siteConfig first (admin saves update this via GitHub commit)
+  if (siteConfig.services?.length) {
+    return siteConfig.services.map((s, i) => ({
+      slug: `static-${i}`,
+      title: s.title,
+      description: s.description,
+      icon: '',
       order: i,
     }));
   }
@@ -129,29 +87,21 @@ export async function getServices(): Promise<ServiceData[]> {
   } catch (e) {
     console.error('Failed to read services from Keystatic:', e);
   }
-  return siteConfig.services.map((s, i) => ({
-    slug: `static-${i}`,
-    title: s.title,
-    description: s.description,
-    icon: '',
-    order: i,
-  }));
+  return [];
 }
 
 export async function getProjects(): Promise<ProjectData[]> {
-  // Try blob first
-  const blob = await getSettingsFromBlob();
-  if (blob && (blob as any).projects?.length) {
-    return (blob as any).projects.map((p: any, i: number) => ({
-      slug: `blob-${i}`,
-      title: p.title || '',
-      description: p.description || '',
-      location: p.location || 'UK',
-      image: p.image || null,
+  // Read from siteConfig first
+  if (siteConfig.projects?.length) {
+    return siteConfig.projects.map((p, i) => ({
+      slug: `static-${i}`,
+      title: p.title,
+      description: p.description,
+      location: (p as any).location || p.title.split('—')[1]?.trim() || 'UK',
+      image: (p as any).image || null,
       order: i,
     }));
   }
-  // Fall back to Keystatic
   try {
     const slugs = await reader.collections.projects.list();
     const items = await Promise.all(
@@ -175,29 +125,20 @@ export async function getProjects(): Promise<ProjectData[]> {
   } catch (e) {
     console.error('Failed to read projects from Keystatic:', e);
   }
-  return siteConfig.projects.map((p, i) => ({
-    slug: `static-${i}`,
-    title: p.title,
-    description: p.description,
-    location: p.title.split('—')[1]?.trim() || 'UK',
-    image: (p as any).image || null,
-    order: i,
-  }));
+  return [];
 }
 
 export async function getTestimonials(): Promise<TestimonialData[]> {
-  // Try blob first
-  const blob = await getSettingsFromBlob();
-  if (blob && (blob as any).testimonials?.length) {
-    return (blob as any).testimonials.map((t: any, i: number) => ({
-      slug: `blob-${i}`,
-      name: t.name || '',
-      location: t.location || '',
-      quote: t.quote || '',
+  // Read from siteConfig first
+  if (siteConfig.testimonials?.length) {
+    return siteConfig.testimonials.map((t, i) => ({
+      slug: `static-${i}`,
+      name: t.name,
+      location: t.location,
+      quote: t.quote,
       order: i,
     }));
   }
-  // Fall back to Keystatic
   try {
     const slugs = await reader.collections.testimonials.list();
     const items = await Promise.all(
@@ -220,11 +161,5 @@ export async function getTestimonials(): Promise<TestimonialData[]> {
   } catch (e) {
     console.error('Failed to read testimonials from Keystatic:', e);
   }
-  return siteConfig.testimonials.map((t, i) => ({
-    slug: `static-${i}`,
-    name: t.name,
-    location: t.location,
-    quote: t.quote,
-    order: i,
-  }));
+  return [];
 }
