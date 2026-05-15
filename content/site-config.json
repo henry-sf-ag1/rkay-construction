@@ -91,7 +91,7 @@
       "title": "Single Storey Rear Extension",
       "description": "Single storey rear extension with a full width, modern composite decking area. Full ground floor refurb with a high end kitchen and utility room.",
       "location": "",
-      "image": "/images/projects/extension-surrey.jpg"
+      "image": "https://raw.githubusercontent.com/henry-sf-ag1/rkay-construction/master/public/uploads/img_1458-1778873051275.jpg"
     },
     {
       "title": "Single Storey Rear Extension — Wanstead",
@@ -178,6 +178,7 @@
       }
     }
   },
+  "heroImage": "https://dshifhgxd8as8ou1.public.blob.vercel-storage.com/images/hero-bg-1775231154982.jpg",
   "sectionSubtitles": {
     "ourWork": "RKay Construction are an Epping based, trusted building and home improvement company, delivering quality craftsmanship across Essex and London.",
     "services": "From foundations to finishing touches, we deliver comprehensive residential construction services."
