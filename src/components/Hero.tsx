@@ -14,20 +14,20 @@ export default function Hero({
   heroImage,
 }: HeroProps) {
   return (
-    <section className="relative min-h-screen flex items-center justify-center pt-20">
+    <section className="relative min-h-[100svh] flex items-center justify-center pt-20">
       {/* Hero background — deep grey gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#1a1a1a] via-[#2a2a2a] to-[#1a1a1a]" />
 
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Logo */}
-        <div className="mb-8 flex justify-center animate-fade-in-up">
-          <div className="bg-white rounded-2xl p-4 shadow-2xl">
+        <div className="mb-6 flex justify-center animate-fade-in-up">
+          <div className="bg-white rounded-2xl p-3 shadow-2xl">
             <Image
               src="/logo.jpg"
               alt={companyName}
-              width={120}
-              height={120}
-              className="rounded-lg"
+              width={90}
+              height={90}
+              className="rounded-lg w-[72px] h-[72px] sm:w-[90px] sm:h-[90px]"
               priority
             />
           </div>
