@@ -57,38 +57,38 @@
     {
       "title": "Single-Storey Rear Extension — Chelmsford, Essex",
       "description": "A spacious single-storey rear extension adding a timeless, stylish kitchen and family living area. This project was concept, to completion.",
-      "image": "/images/projects/extension-surrey.jpg",
+      "image": "https://raw.githubusercontent.com/henry-sf-ag1/rkay-construction/master/public/uploads/img_1466-1778873605778.jpg",
       "location": "Chelmsford, Essex"
     },
     {
       "title": "Double-Storey Side And Rear Extension — Buckhurst Hill, Essex",
       "description": "Double storey side and rear extension, with a full house renovation including a traditional kitchen and two high spec bathrooms.",
-      "image": "/images/projects/loft-london.jpg",
+      "image": "https://raw.githubusercontent.com/henry-sf-ag1/rkay-construction/master/public/uploads/img_1468-1778873621390.jpg",
       "location": "Buckhurst Hill, Essex"
     },
     {
       "title": "Single Storey Extension — Epping, Essex",
       "description": "Single storey extension, creating an open plan kitchen-dining-living space, complete with premium finishes",
-      "image": "/images/projects/renovation-kent.jpg"
+      "image": "https://raw.githubusercontent.com/henry-sf-ag1/rkay-construction/master/public/uploads/img_1461-1778873641797.jpg"
     },
     {
       "title": "New Build — Great Dunmow, Essex",
       "description": "Four-bedroom detached new build with part brick and part timber cladded facade. Full interior install, with bespoke finishes throughout.",
-      "image": "/images/projects/newbuild-essex.jpg"
+      "image": "https://raw.githubusercontent.com/henry-sf-ag1/rkay-construction/master/public/uploads/img_1467-1778873680776.jpg"
     },
     {
       "title": "Kitchen Remodel — Woodford Green, Essex",
       "description": "Full kitchen Refurb with beautiful quartz worktops, finished with top spec appliances.",
-      "image": "/images/projects/kitchen-hampshire.jpg"
+      "image": "https://raw.githubusercontent.com/henry-sf-ag1/rkay-construction/master/public/uploads/img_1470-1778873755024.jpg"
     },
     {
       "title": "Single Storey Rear Extension — Galleywood, Essex",
       "description": "Single storey rear extension, porcelain tiled patio area, full ground floor refurbishment.",
       "location": "",
-      "image": "/images/projects/roofing-berkshire.jpg"
+      "image": "https://raw.githubusercontent.com/henry-sf-ag1/rkay-construction/master/public/uploads/img_1464-1778873797699.jpg"
     },
     {
-      "title": "Single Storey Rear Extension",
+      "title": "Single Storey Rear Extension — Chelmsford",
       "description": "Single storey rear extension with a full width, modern composite decking area. Full ground floor refurb with a high end kitchen and utility room.",
       "location": "",
       "image": "https://raw.githubusercontent.com/henry-sf-ag1/rkay-construction/master/public/uploads/img_1458-1778873051275.jpg"
@@ -97,7 +97,19 @@
       "title": "Single Storey Rear Extension — Wanstead",
       "description": "A Stunning yellow stock brick extension with floor-to-ceiling glazed corner windows, seamlessly connecting indoor living with the garden. A new contemporary kitchen to add to the beauty of this build.",
       "location": "",
-      "image": "/images/projects/renovation-kent.jpg"
+      "image": "https://raw.githubusercontent.com/henry-sf-ag1/rkay-construction/master/public/uploads/img_1465-1778873842044.jpg"
+    },
+    {
+      "title": "Full House Re-Build — Epping, Essex",
+      "description": "",
+      "location": "",
+      "image": ""
+    },
+    {
+      "title": "Garden Room — Buckhurst Hill, Essex",
+      "description": "",
+      "location": "",
+      "image": ""
     }
   ],
   "testimonials": [
