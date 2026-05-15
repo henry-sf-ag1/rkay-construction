@@ -30,27 +30,27 @@
   "services": [
     {
       "title": "Extensions",
-      "description": "Expand your living space with beautifully designed single or double-storey extensions. Whether you require a rear, side or an L shape extension, we will work with you from concept stage through to finishing touches to deliver your dream home."
+      "description": "Expand your living space with a single or double-storey extension. Whether you require a rear, side or a wrap-around extension, we will work with you and your architect from concept stage through to finishing touches to deliver your dream home, on time and on budget."
     },
     {
       "title": "Loft Conversions",
-      "description": "Transform unused, empty loft space into stunning bedrooms, offices, or living areas. "
+      "description": "Your loft space is so much more than just a storage area. Transform unused, empty loft space into stunning bedrooms, bathrooms, offices, or living areas."
     },
     {
       "title": "New Builds",
-      "description": "Complete new build construction, from foundations to finishing touches. We will guide you through every stage of the project to make your dream home a reality."
+      "description": "Complete new build construction, from design to concept, foundations to finishing touches,  We will guide you through every stage of the project to make your dream home a reality."
     },
     {
       "title": "Kitchen & Bathroom Renovations",
-      "description": "Modern, functional renovations that add value and style to two of the most important rooms in your home. "
+      "description": "Beautiful, functional renovations that add value and style to two of the most important rooms in your home. The kitchen and bathroom should add the wow factor to your home, and we are here to deliver that for our clients."
     },
     {
       "title": "Structural Alterations",
-      "description": "Load-bearing wall removal, RSJ installation, and structural reconfigurations."
+      "description": "Load-bearing wall removal, RSJ installation, and structural reconfigurations for minor or major changes to your home."
     },
     {
       "title": "Full House Renovations",
-      "description": "Full house renovations, from minor works to updating your entire home if you are looking for an alternative to an extension or other major structural work."
+      "description": "Full house renovations, from minor works and refreshes, to renovating your entire home if you are looking for an alternative to an extension or other major structural work."
     }
   ],
   "projects": [
@@ -193,6 +193,6 @@
   "heroImage": "https://dshifhgxd8as8ou1.public.blob.vercel-storage.com/images/hero-bg-1775231154982.jpg",
   "sectionSubtitles": {
     "ourWork": "RKay Construction are an Epping based, trusted building and home improvement company, delivering quality craftsmanship across Essex and London.",
-    "services": "From foundations to finishing touches, we deliver comprehensive residential construction services."
+    "services": "From foundations to finishing touches, we deliver comprehensive residential construction services to our clients across Essex and London."
   }
 }
